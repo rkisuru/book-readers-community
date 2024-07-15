@@ -31,7 +31,7 @@ public class AuthenticationService {
 
     private final EmailService emailService;
 
-    @Value("{mailing.frontend.activation-url}")
+    @Value("${mailing.frontend.activation-url}")
     private String activationUrl;
 
     public void register(RegistrationRequest request) throws MessagingException {
