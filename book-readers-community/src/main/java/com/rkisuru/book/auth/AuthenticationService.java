@@ -3,6 +3,7 @@ package com.rkisuru.book.auth;
 import com.rkisuru.book.email.EmailService;
 import com.rkisuru.book.email.EmailTemplateName;
 import com.rkisuru.book.role.RoleRepository;
+import com.rkisuru.book.security.JwtService;
 import com.rkisuru.book.user.Token;
 import com.rkisuru.book.user.TokenRepository;
 import com.rkisuru.book.user.User;
@@ -10,11 +11,14 @@ import com.rkisuru.book.user.UserRepository;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -30,6 +34,10 @@ public class AuthenticationService {
     private final TokenRepository tokenRepository;
 
     private final EmailService emailService;
+
+    private final AuthenticationManager authenticationManager;
+
+    private final JwtService jwtService;
 
     @Value("${mailing.frontend.activation-url}")
     private String activationUrl;
@@ -90,4 +98,18 @@ public class AuthenticationService {
         return codeBuilder.toString();
     }
 
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
+
+        var auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
+        var claims = new HashMap<String, Object>();
+        var user = ((User)auth.getPrincipal());
+        claims.put("fullName", user.fullName());
+        var jwtToken = jwtService.generateToken(claims, user);
+        return AuthenticationResponse.builder().token(jwtToken).build();
+    }
 }
