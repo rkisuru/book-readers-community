@@ -1,5 +1,7 @@
 package com.rkisuru.book.user;
 
+import com.rkisuru.book.book.Book;
+import com.rkisuru.book.history.BookTransactionHistory;
 import com.rkisuru.book.role.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -55,6 +57,12 @@ public class User implements UserDetails, Principal {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Book> books;
+
+    @OneToMany(mappedBy = "user")
+    private List<BookTransactionHistory> transactionHistories;
 
     @Override
     public String getName() {
