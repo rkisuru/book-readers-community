@@ -122,10 +122,23 @@ public class BookService {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(()-> new EntityNotFoundException("No book found with the Id"+ bookId));
         User user = ((User) connectedUser.getPrincipal());
-        if (!Objects.equals(book.getOwner().getBooks(), user.getId())) {
-            throw new OperationNotPermittedException("You cannot update shareable status");
+        if (!Objects.equals(book.getOwner().getId(), user.getId())) {
+            throw new OperationNotPermittedException("You cannot update others' shareable status");
         }
         book.setShareable(!book.isShareable());
+        bookRepository.save(book);
+        return bookId;
+    }
+
+    public Integer updateArchivedStatus(Integer bookId, Authentication connectedUser) {
+
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(()-> new EntityNotFoundException("No book found with the Id"+ bookId));
+        User user = ((User) connectedUser.getPrincipal());
+        if (!Objects.equals(book.getOwner().getId(), user.getId())) {
+            throw new OperationNotPermittedException("You cannot update others' archived status");
+        }
+        book.setShareable(!book.isArchived());
         bookRepository.save(book);
         return bookId;
     }
