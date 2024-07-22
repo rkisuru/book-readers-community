@@ -1,12 +1,14 @@
 package com.rkisuru.book.book;
 
 import com.rkisuru.book.common.PageResponse;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("books")
@@ -98,4 +100,14 @@ public class BookController {
     ) {
         return ResponseEntity.ok(bookService.returnBorrowedBook(bookId, connectedUser));
     }
+
+    @PatchMapping("/borrow/return/approve/{book-id}")
+    public ResponseEntity<Integer> approveReturnBorrowedBook(
+            @PathVariable("book-id") Integer bookId,
+            Authentication connectedUser
+    ) {
+        return ResponseEntity.ok(bookService.approveReturnBorrowedBook(bookId, connectedUser));
+    }
+
+
 }
