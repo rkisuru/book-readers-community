@@ -5,6 +5,7 @@ import com.rkisuru.book.exception.OperationNotPermittedException;
 import com.rkisuru.book.history.BookTransactionHistory;
 import com.rkisuru.book.history.BookTransactionHistoryRepository;
 import com.rkisuru.book.user.User;
+import com.rkisuru.book.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +26,7 @@ public class BookService {
     private final BookMapper bookMapper;
     private final BookTransactionHistoryRepository transactionHistoryRepository;
     private final BookRepository bookRepository;
+    private final FileStorageService
 
     public Integer save(BookRequest request, Authentication connectedUser) {
 
@@ -185,4 +188,22 @@ public class BookService {
         bookTransactionHistory.setReturned(true);
         return transactionHistoryRepository.save(bookTransactionHistory).getId();
     }
+
+    public Integer approveReturnBorrowedBook(Integer bookId, Authentication connectedUser) {
+
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new EntityNotFoundException("No book found with Id: "+bookId));
+        if (book.isArchived() || !book.isShareable()) {
+            throw new OperationNotPermittedException("The requested book cannot be borrowed since it is archived or not shareable");
+        }
+        User user = ((User) connectedUser.getPrincipal());
+        if (Objects.equals(book.getOwner().getId(), user.getId())) {
+            throw new OperationNotPermittedException("You cannot borrow or return your own book");
+        }
+        BookTransactionHistory bookTransactionHistory = transactionHistoryRepository.findByBookIdAndOwnerId(bookId, user.getId())
+                .orElseThrow(() ->new  OperationNotPermittedException("The book is not returned yet"));
+        bookTransactionHistory.setReturnApproved(true);
+        return transactionHistoryRepository.save(bookTransactionHistory).getId();
+    }
+
 }
