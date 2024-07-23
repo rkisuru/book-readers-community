@@ -2,10 +2,10 @@ package com.rkisuru.book.book;
 
 import com.rkisuru.book.common.PageResponse;
 import com.rkisuru.book.exception.OperationNotPermittedException;
+import com.rkisuru.book.file.FileStorageService;
 import com.rkisuru.book.history.BookTransactionHistory;
 import com.rkisuru.book.history.BookTransactionHistoryRepository;
 import com.rkisuru.book.user.User;
-import com.rkisuru.book.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,7 +26,7 @@ public class BookService {
     private final BookMapper bookMapper;
     private final BookTransactionHistoryRepository transactionHistoryRepository;
     private final BookRepository bookRepository;
-    private final FileStorageService
+    private final FileStorageService fileStorageService;
 
     public Integer save(BookRequest request, Authentication connectedUser) {
 
@@ -206,4 +206,13 @@ public class BookService {
         return transactionHistoryRepository.save(bookTransactionHistory).getId();
     }
 
+    public void uploadBookCoverPic(MultipartFile file, Authentication connectedUser, Integer bookId) {
+
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new EntityNotFoundException("No book found with Id: "+bookId));
+        User user = ((User) connectedUser.getPrincipal());
+        var bookCover = fileStorageService.saveFile(file, user.getId());
+        book.setBookCover((String) bookCover);
+        bookRepository.save(book);
+    }
 }
