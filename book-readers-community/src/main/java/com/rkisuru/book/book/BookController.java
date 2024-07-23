@@ -109,5 +109,14 @@ public class BookController {
         return ResponseEntity.ok(bookService.approveReturnBorrowedBook(bookId, connectedUser));
     }
 
-
+    @PostMapping(value = "/cover/{book-id}", consumes = "multipart/form-dara")
+    public ResponseEntity<?> uploadBookCoverPic(
+            @PathVariable("book-id") Integer bookId,
+            @Parameter()
+            @RequestPart("file")MultipartFile file,
+            Authentication connectedUser
+            ) {
+        bookService.uploadBookCoverPic(file, connectedUser, bookId);
+        return ResponseEntity.accepted().build();
+    }
 }
