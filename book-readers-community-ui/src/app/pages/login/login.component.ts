@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {AuthenticationRequest} from "../../services/models/authentication-request";
 
 @Component({
   selector: 'app-login',
@@ -7,4 +8,14 @@ import { Component } from '@angular/core';
 })
 export class LoginComponent {
 
+  authRequest: AuthenticationRequest = {email:'', password:''};
+  errorMessage: Array<string> = [];
+
+  login() {
+    throw new Error('Method not implemented.');
+  }
+
+  register() {
+    throw new Error('Method not implemented.');
+  }
 }
