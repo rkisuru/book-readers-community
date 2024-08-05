@@ -8,14 +8,14 @@ import { RequestBuilder } from '../../request-builder';
 
 import { PageResponseFeedbackResponse } from '../../models/page-response-feedback-response';
 
-export interface FindAllFeadbacksByBook$Params {
+export interface FindAllFeedbacksByBook$Params {
   'book-id': number;
   page?: number;
   size?: number;
 }
 
-export function findAllFeadbacksByBook(http: HttpClient, rootUrl: string, params: FindAllFeadbacksByBook$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseFeedbackResponse>> {
-  const rb = new RequestBuilder(rootUrl, findAllFeadbacksByBook.PATH, 'get');
+export function findAllFeedbacksByBook(http: HttpClient, rootUrl: string, params: FindAllFeedbacksByBook$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseFeedbackResponse>> {
+  const rb = new RequestBuilder(rootUrl, findAllFeedbacksByBook.PATH, 'get');
   if (params) {
     rb.path('book-id', params['book-id'], {});
     rb.query('page', params.page, {});
@@ -32,4 +32,4 @@ export function findAllFeadbacksByBook(http: HttpClient, rootUrl: string, params
   );
 }
 
-findAllFeadbacksByBook.PATH = '/feedbacks/book/{book-id}';
+findAllFeedbacksByBook.PATH = '/feedbacks/book/{book-id}';
