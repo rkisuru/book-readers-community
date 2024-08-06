@@ -37,7 +37,7 @@ export class LoginComponent {
         if(err.error.validationErrors) {
           this.errorMessage = err.error.validationErrors
         } else {
-          this.errorMessage.push(err.error.error)
+          this.errorMessage.push(err.error.error);
         }
       }
     })
