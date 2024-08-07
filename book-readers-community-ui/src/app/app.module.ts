@@ -16,7 +16,7 @@ import { HttpTokenInterceptor } from './services/interceptor/http-token.intercep
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    ActivateAccountComponent
+    ActivateAccountComponent,
   ],
     imports: [
       BrowserModule,
