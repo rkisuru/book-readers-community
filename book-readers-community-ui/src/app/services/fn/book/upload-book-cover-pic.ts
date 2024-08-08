@@ -19,7 +19,7 @@ export function uploadBookCoverPic(http: HttpClient, rootUrl: string, params: Up
   const rb = new RequestBuilder(rootUrl, uploadBookCoverPic.PATH, 'post');
   if (params) {
     rb.path('book-id', params['book-id'], {});
-    rb.body(params.body, 'multipart/form-dara');
+    rb.body(params.body, 'multipart/form-data');
   }
 
   return http.request(
