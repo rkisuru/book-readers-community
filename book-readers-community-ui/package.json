@@ -24,6 +24,7 @@
     "angular-code-input": "^2.0.0",
     "bootstrap": "^5.3.3",
     "jquery": "^3.7.1",
+    "keycloak-js": "^25.0.1",
     "ng-openapi-gen": "^0.51.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
