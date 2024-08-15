@@ -53,56 +53,6 @@
           }
         }
       },
-      "RegistrationRequest": {
-        "required": [
-          "email",
-          "firstName",
-          "lastName",
-          "password"
-        ],
-        "type": "object",
-        "properties": {
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "maxLength": 2147483647,
-            "minLength": 8,
-            "type": "string"
-          }
-        }
-      },
-      "AuthenticationRequest": {
-        "required": [
-          "email",
-          "password"
-        ],
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "maxLength": 2147483647,
-            "minLength": 8,
-            "type": "string"
-          }
-        }
-      },
-      "AuthenticationResponse": {
-        "type": "object",
-        "properties": {
-          "token": {
-            "type": "string"
-          }
-        }
-      },
       "FeedbackResponse": {
         "type": "object",
         "properties": {
@@ -286,10 +236,17 @@
     },
     "securitySchemes": {
       "bearerAuth": {
-        "type": "http",
+        "type": "oauth2",
+        "description": "JWT auth description",
         "in": "header",
         "scheme": "bearer",
-        "bearerFormat": "JWT"
+        "bearerFormat": "JWT",
+        "flows": {
+          "clientCredentials": {
+            "authorizationUrl": "http://localhost:9090/realms/book-social-network/protocol/openid-connect/auth",
+            "scopes": {}
+          }
+        }
       }
     }
   },
@@ -429,7 +386,7 @@
         ],
         "requestBody": {
           "content": {
-            "multipart/form-dara": {
+            "multipart/form-data": {
               "schema": {
                 "required": [
                   "file"
@@ -484,66 +441,6 @@
                 "schema": {
                   "type": "integer",
                   "format": "int32"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/auth/register": {
-      "post": {
-        "tags": [
-          "Authentication"
-        ],
-        "operationId": "register",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegistrationRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "202": {
-            "description": "Accepted",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/auth/authenticate": {
-      "post": {
-        "tags": [
-          "Authentication"
-        ],
-        "operationId": "authenticate",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AuthenticationRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthenticationResponse"
                 }
               }
             }
@@ -883,29 +780,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/auth/activate-account": {
-      "get": {
-        "tags": [
-          "Authentication"
-        ],
-        "operationId": "confirm",
-        "parameters": [
-          {
-            "name": "token",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }

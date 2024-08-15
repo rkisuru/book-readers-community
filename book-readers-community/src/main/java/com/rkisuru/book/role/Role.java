@@ -18,14 +18,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
-@EntityListeners(AuditingEntityListener.class)
+//@Entity
+//@EntityListeners(AuditingEntityListener.class)
 public class Role {
 
     @Id
     @GeneratedValue
     private Integer id;
-
+    @Column(unique = true)
     private String name;
 
     @ManyToMany(mappedBy = "roles")

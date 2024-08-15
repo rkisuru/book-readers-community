@@ -15,10 +15,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-@Service
+//@Service
 public class JwtService {
 
-    @Value("${security.jwt.expiration}")
+    /*@Value("${security.jwt.expiration}")
     private Long jwtExpiration;
 
     @Value("${security.jwt.secret-key}")
@@ -85,6 +85,6 @@ public class JwtService {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-    }
+    }*/
 
 }

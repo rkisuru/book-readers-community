@@ -26,9 +26,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
-@Table(name = "_user")
-@EntityListeners(AuditingEntityListener.class)
+//@Entity
+//@Table(name = "_user")
+//@EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails, Principal {
 
     @Id
