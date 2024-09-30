@@ -42,15 +42,8 @@ import io.swagger.v3.oas.annotations.servers.Server;
         name = "bearerAuth",
         description = "JWT auth description",
         scheme = "bearer",
-        type = SecuritySchemeType.OAUTH2,
-        flows = @OAuthFlows(
-                clientCredentials =
-                @OAuthFlow(
-                        authorizationUrl = "http://localhost:9090/realms/book-social-network/protocol/openid-connect/auth"
-                )
-        ),
-        bearerFormat = "JWT",
-        in = SecuritySchemeIn.HEADER
+        type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT"
 )
 public class OpenApiConfig {
 }
