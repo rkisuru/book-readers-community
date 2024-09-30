@@ -218,4 +218,22 @@ public class BookService {
         book.setBookCover(bookCover);
         bookRepository.save(book);
     }
+
+    public PageResponse<BookResponse> searchBook(String keyword, int page, int size) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<Book> books = bookRepository.searchBookByTitle(keyword, pageable);
+        List<BookResponse> bookResponse = books.stream()
+                .map(bookMapper::toBookResponse)
+                .toList();
+        return new PageResponse<>(
+                bookResponse,
+                books.getNumber(),
+                books.getSize(),
+                books.getTotalElements(),
+                books.getTotalPages(),
+                books.isFirst(),
+                books.isLast()
+        );
+    }
 }

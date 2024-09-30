@@ -119,4 +119,13 @@ public class BookController {
         bookService.uploadBookCoverPic(file, connectedUser, bookId);
         return ResponseEntity.accepted().build();
     }
+
+    @PostMapping("/search")
+    public ResponseEntity<PageResponse<BookResponse>> searchBook(
+            @RequestParam String keyword,
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size) {
+
+        return ResponseEntity.ok(bookService.searchBook(keyword, page, size));
+    }
 }
