@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.rkisuru</groupId>
-	<artifactId>book-readers-community</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>book-readers&apos;-community-api</name>
-	<description>Spring boot project for book readers&apos; community</description>
+	<artifactId>book-readers-community-api</artifactId>
+	<version>1.0.0</version>
+	<name>book-readers-community-api</name>
+	<description>Spring boot project for book readers community</description>
 	<url/>
 	<licenses>
 		<license/>

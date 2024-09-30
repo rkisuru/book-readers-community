@@ -3,10 +3,10 @@ services:
     container_name: postgres-sql-brc
     image: postgres
     environment:
-      POSTGRES_USER:
-      POSTGRES_PASSWORD:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
       PGDATA: /var/lib/postgresql/data
-      POSTGRES_DB:
+      POSTGRES_DB: book_community
     volumes:
       - postgres:/data/postgres
     ports:
