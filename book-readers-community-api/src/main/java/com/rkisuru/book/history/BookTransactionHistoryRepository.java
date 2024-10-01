@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface BookTransactionHistoryRepository extends JpaRepository<BookTransactionHistory, Integer> {
@@ -61,4 +62,7 @@ public interface BookTransactionHistoryRepository extends JpaRepository<BookTran
             WHERE history.book.createdBy = :userId
             """)
     Page<BookTransactionHistory> findAllReturnedBooks(Pageable pageable, String userId);
+
+    @Query("SELECT transactions FROM BookTransactionHistory transactions WHERE transactions.book.id = :bookId")
+    List<BookTransactionHistory> findAllTransactionsByBook(@Param("bookId") Integer bookId);
 }
