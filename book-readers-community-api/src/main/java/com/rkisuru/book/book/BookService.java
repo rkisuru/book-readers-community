@@ -236,4 +236,19 @@ public class BookService {
                 books.isLast()
         );
     }
+
+    public String deleteBook(Integer bookId, Authentication connectedUser) {
+
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(()-> new EntityNotFoundException("No book found with Id: "+bookId));
+
+        List<BookTransactionHistory> transactions = transactionHistoryRepository.findAllTransactionsByBook(bookId);
+
+        if (book.getCreatedBy().equals(connectedUser.getName()) && !transactionHistoryRepository.isAlreadyBorrowed(bookId)) {
+            transactionHistoryRepository.deleteAll(transactions);
+            bookRepository.delete(book);
+            return "Book deleted successfully";
+        }
+        throw new OperationNotPermittedException("The requested book cannot be deleted");
+    }
 }

@@ -128,4 +128,21 @@ public class BookController {
 
         return ResponseEntity.ok(bookService.searchBook(keyword, page, size));
     }
+
+    @DeleteMapping("/{bookId}")
+    public ResponseEntity<String> deleteBook(@PathVariable("bookId") Integer bookId, Authentication connectedUser) {
+
+        return ResponseEntity.ok(bookService.deleteBook(bookId, connectedUser));
+    }
+
+    /*@GetMapping("/user-info")
+    public String getUserInfo(@AuthenticationPrincipal Jwt jwt) {
+        String username = jwt.getClaimAsString("preferred_username");  // Keycloak default claim for username
+        String email = jwt.getClaimAsString("email");  // Keycloak default claim for email
+        Object roles = jwt.getClaim("roles");  // Assuming you have "roles" claim in the token
+        String id = jwt.getClaimAsString("sub");
+
+        return "Username: " + username + ", Email: " + email + ", ID: " + id;
+    }*/
+
 }
