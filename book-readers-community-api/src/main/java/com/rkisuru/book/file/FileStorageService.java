@@ -18,6 +18,8 @@ import java.nio.file.Paths;
 @RequiredArgsConstructor
 public class FileStorageService {
 
+    private final String[] ALLOWED_EXTENSIONS = new String[]{"jpg", "jpeg", "png"};
+
     @Value("${file.upload.photos-output-path}")
     private String fileUploadPath;
 
@@ -42,6 +44,12 @@ public class FileStorageService {
                 return null;
             }
         }
+        final String fileName = sourceFile.getOriginalFilename();
+
+        if (!isValidExtension(fileName)) {
+            return null;
+        }
+
         final String filExtension = getFileExtension(sourceFile.getOriginalFilename());
         String targetFilePath = finalUploadPath + File.separator + System.currentTimeMillis() + "." + filExtension;
         Path targetPath = Paths.get(targetFilePath);
@@ -64,5 +72,13 @@ public class FileStorageService {
             return "";
         }
         return filename.substring(lastDotIndex + 1).toLowerCase();
+    }
+
+    private boolean isValidExtension(String fileName) {
+        for (String allowedExtension : ALLOWED_EXTENSIONS) {
+            if (fileName.toLowerCase().endsWith(allowedExtension)) {
+                return true;
+            }
+        } return false;
     }
 }
