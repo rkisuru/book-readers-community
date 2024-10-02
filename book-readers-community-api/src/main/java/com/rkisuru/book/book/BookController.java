@@ -1,6 +1,7 @@
 package com.rkisuru.book.book;
 
 import com.rkisuru.book.common.PageResponse;
+import com.rkisuru.book.favourite.MyFavouriteService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -10,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("books")
 @RequiredArgsConstructor
@@ -17,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class BookController {
 
     private final BookService bookService;
+
+    private final MyFavouriteService favouriteService;
 
     @PostMapping
     public ResponseEntity<Integer> saveBook(
@@ -121,18 +126,27 @@ public class BookController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<PageResponse<BookResponse>> searchBook(
-            @RequestParam String keyword,
-            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
-            @RequestParam(name = "size", defaultValue = "10", required = false) int size) {
+    public ResponseEntity<List<BookResponse>> searchBook(@RequestParam String keyword) {
 
-        return ResponseEntity.ok(bookService.searchBook(keyword, page, size));
+        return ResponseEntity.ok(bookService.searchBook(keyword));
     }
 
     @DeleteMapping("/{bookId}")
     public ResponseEntity<String> deleteBook(@PathVariable("bookId") Integer bookId, Authentication connectedUser) {
 
         return ResponseEntity.ok(bookService.deleteBook(bookId, connectedUser));
+    }
+
+    @PostMapping("/{bookId}/favourites")
+    public ResponseEntity<Integer> addToFavourites(@PathVariable Integer bookId, Authentication connectedUser) {
+
+        return ResponseEntity.ok(favouriteService.addToWishList(connectedUser, bookId));
+    }
+
+    @DeleteMapping("/favourites/{favId}")
+    public ResponseEntity<String> removeFromFavourites(@PathVariable Integer favId, Authentication connectedUser) {
+
+        return ResponseEntity.ok(favouriteService.removeFromWishList(connectedUser, favId));
     }
 
     /*@GetMapping("/user-info")
