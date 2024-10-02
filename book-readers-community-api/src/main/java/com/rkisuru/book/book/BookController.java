@@ -149,6 +149,12 @@ public class BookController {
         return ResponseEntity.ok(favouriteService.removeFromWishList(connectedUser, favId));
     }
 
+    @GetMapping("/favorites")
+    public ResponseEntity<List<BookResponse>> getFavorites(Authentication connectedUser) {
+
+        return ResponseEntity.ok(favouriteService.getAllFavourites(connectedUser));
+    }
+
     /*@GetMapping("/user-info")
     public String getUserInfo(@AuthenticationPrincipal Jwt jwt) {
         String username = jwt.getClaimAsString("preferred_username");  // Keycloak default claim for username

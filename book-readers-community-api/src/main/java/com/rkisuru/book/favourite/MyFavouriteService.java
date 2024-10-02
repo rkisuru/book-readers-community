@@ -1,7 +1,9 @@
 package com.rkisuru.book.favourite;
 
 import com.rkisuru.book.book.Book;
+import com.rkisuru.book.book.BookMapper;
 import com.rkisuru.book.book.BookRepository;
+import com.rkisuru.book.book.BookResponse;
 import com.rkisuru.book.exception.OperationNotPermittedException;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -9,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,6 +21,7 @@ public class MyFavouriteService {
 
     private final MyFavouriteRepository repository;
     private final BookRepository bookRepository;
+    private final BookMapper bookMapper;
 
     public Integer addToWishList(Authentication connectedUser, Integer bookId) {
 
@@ -46,5 +51,17 @@ public class MyFavouriteService {
             return "Favourite removed";
         }
         throw new OperationNotPermittedException("You cannot remove other favourites from favourite list");
+    }
+
+    public List<BookResponse> getAllFavourites(Authentication connectedUser) {
+
+        List<MyFavourite> favs = repository.findByConnectedUser(connectedUser.getName());
+        List<Book> books = new ArrayList<>();
+        for (MyFavourite fav : favs) {
+            books.add(fav.getBook());
+        }
+        return books.stream()
+                .map(bookMapper::toBookResponse)
+                .toList();
     }
 }
