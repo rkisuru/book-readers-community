@@ -7,6 +7,7 @@ import com.rkisuru.book.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
 
@@ -21,7 +22,10 @@ public class Book extends BaseEntity {
     private String title;
     private String authorName;
     private String isbn;
+
+    @Length(min = 5, max = 5000)
     private String synopsis;
+
     private String bookCover;
     private boolean archived;
     private boolean shareable;
