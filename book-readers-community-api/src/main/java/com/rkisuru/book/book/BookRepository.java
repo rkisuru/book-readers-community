@@ -21,5 +21,5 @@ public interface BookRepository extends JpaRepository<Book, Integer>, JpaSpecifi
     Page<Book> findAllDisplayableBooks(Pageable pageable, String userId);
 
     @Query("SELECT books FROM Book books WHERE books.title LIKE %:title%")
-    Page<Book> searchBookByTitle(@Param("title") String title, Pageable pageable);
+    List<Book> searchBookByTitle(@Param("title") String title);
 }

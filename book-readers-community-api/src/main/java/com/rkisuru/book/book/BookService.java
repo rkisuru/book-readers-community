@@ -219,22 +219,12 @@ public class BookService {
         bookRepository.save(book);
     }
 
-    public PageResponse<BookResponse> searchBook(String keyword, int page, int size) {
+    public List<BookResponse> searchBook(String keyword) {
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
-        Page<Book> books = bookRepository.searchBookByTitle(keyword, pageable);
-        List<BookResponse> bookResponse = books.stream()
+        return bookRepository.searchBookByTitle(keyword)
+                .stream()
                 .map(bookMapper::toBookResponse)
                 .toList();
-        return new PageResponse<>(
-                bookResponse,
-                books.getNumber(),
-                books.getSize(),
-                books.getTotalElements(),
-                books.getTotalPages(),
-                books.isFirst(),
-                books.isLast()
-        );
     }
 
     public String deleteBook(Integer bookId, Authentication connectedUser) {
