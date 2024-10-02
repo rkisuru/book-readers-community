@@ -1,9 +1,10 @@
 package com.rkisuru.book.book;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rkisuru.book.common.BaseEntity;
 import com.rkisuru.book.feedback.Feedback;
 import com.rkisuru.book.history.BookTransactionHistory;
-import com.rkisuru.book.user.User;
+import com.rkisuru.book.favourite.MyFavourite;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -29,6 +30,10 @@ public class Book extends BaseEntity {
     private String bookCover;
     private boolean archived;
     private boolean shareable;
+
+    @OneToMany(mappedBy = "book")
+    @JsonIgnore
+    private List<MyFavourite> myWishlists;
 
 //    @ManyToOne
 //    @JoinColumn(name = "owner_id")
