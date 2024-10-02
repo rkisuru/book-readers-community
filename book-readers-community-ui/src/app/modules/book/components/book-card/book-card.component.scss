@@ -1,9 +1,22 @@
 div {
   &.card {
-    max-height: 450px;
-    min-height: 450px;
+    height: 90%;
+    max-height: 700px;
+    min-width: 20rem;
+    min-height: 350px;
+    width: 100%;
+    max-width: 350px;
   }
 }
 i {
   cursor: pointer;
+}
+
+.card-img-top {
+  border: 2px solid gray;
+  width: 90%;
+  height: 400px;
+  margin: 1rem auto;
+  display: block;
+  border-radius: 0;
 }
