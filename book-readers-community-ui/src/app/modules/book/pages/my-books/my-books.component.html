@@ -1,11 +1,13 @@
-<h3>My books list</h3>
+<div>
+  <h1 class="page-title">My Books</h1>
+</div>
 <hr>
-<div class="d-flex justify-content-end mb-3">
+<div class="d-flex justify-content-end my-4 pe-3">
   <a routerLink="/books/manage" class="btn btn-outline-primary">
     <i class="fas fa-plus"></i>&nbsp;New book
   </a>
 </div>
-<div class="d-flex justify-content-start gap-4 flex-wrap">
+<div class="d-flex justify-content-around gap-2 flex-wrap">
   <app-book-card
     *ngFor="let book of bookResponse.content"
     [book]="book"
@@ -15,7 +17,7 @@
     (edit)="editBook($event)"
   ></app-book-card>
 </div>
-<div class="d-flex justify-content-center mt-3">
+<div class="d-flex justify-content-center">
   <nav aria-label="Page navigation example">
     <ul class="pagination">
       <li class="page-item">

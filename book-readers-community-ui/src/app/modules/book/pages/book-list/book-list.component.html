@@ -1,4 +1,6 @@
-<h3>Books list</h3>
+<div class="page-title">
+  <h1>Available Books</h1>
+</div>
 <div
   *ngIf="message"
   class="alert "
@@ -9,7 +11,8 @@
   <p>{{message}}</p>
 </div>
 <hr>
-<div class="d-flex justify-content-start gap-2 flex-wrap">
+
+<div class="d-flex justify-content-around gap-2 flex-wrap my-lg-5">
   <app-book-card
     *ngFor="let book of bookResponse.content"
     [book]="book"
