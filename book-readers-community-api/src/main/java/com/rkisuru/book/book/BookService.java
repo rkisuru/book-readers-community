@@ -2,6 +2,8 @@ package com.rkisuru.book.book;
 
 import com.rkisuru.book.common.PageResponse;
 import com.rkisuru.book.exception.OperationNotPermittedException;
+import com.rkisuru.book.favourite.MyFavourite;
+import com.rkisuru.book.favourite.MyFavouriteRepository;
 import com.rkisuru.book.file.FileStorageService;
 import com.rkisuru.book.history.BookTransactionHistory;
 import com.rkisuru.book.history.BookTransactionHistoryRepository;
@@ -30,6 +32,7 @@ public class BookService {
     private final BookTransactionHistoryRepository transactionHistoryRepository;
     private final BookRepository bookRepository;
     private final FileStorageService fileStorageService;
+    private final MyFavouriteRepository favouriteRepository;
 
     public Integer save(BookRequest request, Authentication connectedUser) {
 
@@ -227,18 +230,19 @@ public class BookService {
                 .toList();
     }
 
-    public String deleteBook(Integer bookId, Authentication connectedUser) {
+    public void deleteBook(Integer bookId, Authentication connectedUser) {
 
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(()-> new EntityNotFoundException("No book found with Id: "+bookId));
+
+        List<MyFavourite> favs = favouriteRepository.findByBookId(bookId);
 
         List<BookTransactionHistory> transactions = transactionHistoryRepository.findAllTransactionsByBook(bookId);
 
         if (book.getCreatedBy().equals(connectedUser.getName()) && !transactionHistoryRepository.isAlreadyBorrowed(bookId)) {
             transactionHistoryRepository.deleteAll(transactions);
+            favouriteRepository.deleteAll(favs);
             bookRepository.delete(book);
-            return "Book deleted successfully";
         }
-        throw new OperationNotPermittedException("The requested book cannot be deleted");
     }
 }
