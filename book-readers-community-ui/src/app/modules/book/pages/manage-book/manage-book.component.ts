@@ -10,6 +10,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class ManageBookComponent implements OnInit {
 
+  bookId!: number;
+  isFound!: boolean;
+
   errorMsg: Array<string> = [];
   bookRequest: BookRequest = {
     authorName: '',
@@ -28,10 +31,11 @@ export class ManageBookComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const bookId = this.activatedRoute.snapshot.params['bookId'];
-    if (bookId) {
+    this.bookId = this.activatedRoute.snapshot.params['bookId'];
+    if (this.bookId) {
+      this.isFound = true;
       this.bookService.findBookById({
-        'bookId': bookId
+        'bookId': this.bookId
       }).subscribe({
         next: (book) => {
           this.bookRequest = {
@@ -45,6 +49,8 @@ export class ManageBookComponent implements OnInit {
           this.selectedPicture='data:image/jpg;base64,' + book.cover;
         }
       });
+    } else {
+      this.isFound = false;
     }
   }
 
@@ -82,6 +88,18 @@ export class ManageBookComponent implements OnInit {
         this.selectedPicture = reader.result as string;
       };
       reader.readAsDataURL(this.selectedBookCover);
+    }
+  }
+
+  onDeleteBook() {
+    if (confirm('Are you sure you want to delete this book?')) {
+      this.bookService.deleteBook({bookId: this.bookId}).subscribe(
+        {
+          next: ()=> {
+            this.router.navigate(['/books/my-books']);
+          }
+        }
+      );
     }
   }
 }
