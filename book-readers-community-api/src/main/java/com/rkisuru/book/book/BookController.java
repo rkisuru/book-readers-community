@@ -6,12 +6,16 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("books")
@@ -132,21 +136,31 @@ public class BookController {
     }
 
     @DeleteMapping("/{bookId}")
-    public ResponseEntity<String> deleteBook(@PathVariable("bookId") Integer bookId, Authentication connectedUser) {
+    public ResponseEntity<Map<String, String>> deleteBook(@PathVariable("bookId") Integer bookId, Authentication connectedUser) {
 
-        return ResponseEntity.ok(bookService.deleteBook(bookId, connectedUser));
+        bookService.deleteBook(bookId, connectedUser);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Book deleted successfully!");
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(response);
     }
 
     @PostMapping("/{bookId}/favourites")
     public ResponseEntity<Integer> addToFavourites(@PathVariable Integer bookId, Authentication connectedUser) {
 
-        return ResponseEntity.ok(favouriteService.addToWishList(connectedUser, bookId));
+        return ResponseEntity.ok(favouriteService.addToFavourites(connectedUser, bookId));
     }
 
     @DeleteMapping("/favourites/{favId}")
-    public ResponseEntity<String> removeFromFavourites(@PathVariable Integer favId, Authentication connectedUser) {
+    public ResponseEntity<Map<String, String>> removeFromFavourites(@PathVariable Integer favId, Authentication connectedUser) {
 
-        return ResponseEntity.ok(favouriteService.removeFromWishList(connectedUser, favId));
+        favouriteService.removeFromFavourites(connectedUser, favId);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Favourite removed successfully!");
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(response);
     }
 
     @GetMapping("/favorites")
