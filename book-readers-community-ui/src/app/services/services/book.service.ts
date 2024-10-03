@@ -9,6 +9,8 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
+import { addToFavourites } from '../fn/book/add-to-favourites';
+import { AddToFavourites$Params } from '../fn/book/add-to-favourites';
 import { approveReturnBorrowedBook } from '../fn/book/approve-return-borrowed-book';
 import { ApproveReturnBorrowedBook$Params } from '../fn/book/approve-return-borrowed-book';
 import { BookResponse } from '../models/book-response';
@@ -26,8 +28,12 @@ import { findAllReturnedBooks } from '../fn/book/find-all-returned-books';
 import { FindAllReturnedBooks$Params } from '../fn/book/find-all-returned-books';
 import { findBookById } from '../fn/book/find-book-by-id';
 import { FindBookById$Params } from '../fn/book/find-book-by-id';
+import { getFavorites } from '../fn/book/get-favorites';
+import { GetFavorites$Params } from '../fn/book/get-favorites';
 import { PageResponseBookResponse } from '../models/page-response-book-response';
 import { PageResponseBorrowedBookResponse } from '../models/page-response-borrowed-book-response';
+import { removeFromFavourites } from '../fn/book/remove-from-favourites';
+import { RemoveFromFavourites$Params } from '../fn/book/remove-from-favourites';
 import { returnBorrowedBook } from '../fn/book/return-borrowed-book';
 import { ReturnBorrowedBook$Params } from '../fn/book/return-borrowed-book';
 import { saveBook } from '../fn/book/save-book';
@@ -97,6 +103,31 @@ export class BookService extends BaseService {
     );
   }
 
+  /** Path part for operation `addToFavourites()` */
+  static readonly AddToFavouritesPath = '/books/{bookId}/favourites';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `addToFavourites()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  addToFavourites$Response(params: AddToFavourites$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
+    return addToFavourites(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `addToFavourites$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  addToFavourites(params: AddToFavourites$Params, context?: HttpContext): Observable<number> {
+    return this.addToFavourites$Response(params, context).pipe(
+      map((r: StrictHttpResponse<number>): number => r.body)
+    );
+  }
+
   /** Path part for operation `searchBook()` */
   static readonly SearchBookPath = '/books/search';
 
@@ -106,7 +137,7 @@ export class BookService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  searchBook$Response(params: SearchBook$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseBookResponse>> {
+  searchBook$Response(params: SearchBook$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<BookResponse>>> {
     return searchBook(this.http, this.rootUrl, params, context);
   }
 
@@ -116,9 +147,9 @@ export class BookService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  searchBook(params: SearchBook$Params, context?: HttpContext): Observable<PageResponseBookResponse> {
+  searchBook(params: SearchBook$Params, context?: HttpContext): Observable<Array<BookResponse>> {
     return this.searchBook$Response(params, context).pipe(
-      map((r: StrictHttpResponse<PageResponseBookResponse>): PageResponseBookResponse => r.body)
+      map((r: StrictHttpResponse<Array<BookResponse>>): Array<BookResponse> => r.body)
     );
   }
 
@@ -310,7 +341,9 @@ export class BookService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  deleteBook$Response(params: DeleteBook$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+  deleteBook$Response(params: DeleteBook$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+[key: string]: string;
+}>> {
     return deleteBook(this.http, this.rootUrl, params, context);
   }
 
@@ -320,9 +353,15 @@ export class BookService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  deleteBook(params: DeleteBook$Params, context?: HttpContext): Observable<string> {
+  deleteBook(params: DeleteBook$Params, context?: HttpContext): Observable<{
+[key: string]: string;
+}> {
     return this.deleteBook$Response(params, context).pipe(
-      map((r: StrictHttpResponse<string>): string => r.body)
+      map((r: StrictHttpResponse<{
+[key: string]: string;
+}>): {
+[key: string]: string;
+} => r.body)
     );
   }
 
@@ -376,6 +415,31 @@ export class BookService extends BaseService {
     );
   }
 
+  /** Path part for operation `getFavorites()` */
+  static readonly GetFavoritesPath = '/books/favorites';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getFavorites()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getFavorites$Response(params?: GetFavorites$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<BookResponse>>> {
+    return getFavorites(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getFavorites$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getFavorites(params?: GetFavorites$Params, context?: HttpContext): Observable<Array<BookResponse>> {
+    return this.getFavorites$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<BookResponse>>): Array<BookResponse> => r.body)
+    );
+  }
+
   /** Path part for operation `findAllBorrowedBooks()` */
   static readonly FindAllBorrowedBooksPath = '/books/borrowed';
 
@@ -398,6 +462,31 @@ export class BookService extends BaseService {
   findAllBorrowedBooks(params?: FindAllBorrowedBooks$Params, context?: HttpContext): Observable<PageResponseBorrowedBookResponse> {
     return this.findAllBorrowedBooks$Response(params, context).pipe(
       map((r: StrictHttpResponse<PageResponseBorrowedBookResponse>): PageResponseBorrowedBookResponse => r.body)
+    );
+  }
+
+  /** Path part for operation `removeFromFavourites()` */
+  static readonly RemoveFromFavouritesPath = '/books/favourites/{favId}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `removeFromFavourites()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  removeFromFavourites$Response(params: RemoveFromFavourites$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
+    return removeFromFavourites(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `removeFromFavourites$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  removeFromFavourites(params: RemoveFromFavourites$Params, context?: HttpContext): Observable<string> {
+    return this.removeFromFavourites$Response(params, context).pipe(
+      map((r: StrictHttpResponse<string>): string => r.body)
     );
   }
 
