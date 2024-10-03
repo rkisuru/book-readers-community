@@ -23,7 +23,7 @@ public class MyFavouriteService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
 
-    public Integer addToWishList(Authentication connectedUser, Integer bookId) {
+    public Integer addToFavourites(Authentication connectedUser, Integer bookId) {
 
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(()-> new EntityNotFoundException("Book not found"));
@@ -41,16 +41,14 @@ public class MyFavouriteService {
         return repository.save(favourite).getId();
     }
 
-    public String removeFromWishList(Authentication connectedUser, Integer favId) {
+    public void removeFromFavourites(Authentication connectedUser, Integer favId) {
 
         MyFavourite fav = repository.findById(favId)
                 .orElseThrow(()-> new EntityNotFoundException("Favourite not found"));
 
         if (fav.getCreatedBy().equals(connectedUser.getName())) {
             repository.delete(fav);
-            return "Favourite removed";
         }
-        throw new OperationNotPermittedException("You cannot remove other favourites from favourite list");
     }
 
     public List<BookResponse> getAllFavourites(Authentication connectedUser) {
