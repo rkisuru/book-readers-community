@@ -15,4 +15,7 @@ public interface MyFavouriteRepository extends JpaRepository<MyFavourite, Intege
 
     @Query("SELECT favs FROM MyFavourite favs WHERE favs.createdBy = :connectedUser")
     List<MyFavourite> findByConnectedUser(@Param("connectedUser") String connectedUser);
+
+    @Query("SELECT favs FROM MyFavourite favs WHERE favs.book.id = :bookId")
+    List<MyFavourite> findByBookId(@Param("bookId") Integer bookId);
 }
