@@ -1,44 +1,52 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary px-lg-5 py-lg-0">
   <div class="container-fluid">
-    <a class="navbar-brand" href="javascript:void(0)">BSN</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" routerLink="#"><img src="/brc_light.png" alt="light-logo" class="logo"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
+      <ul class="navbar-nav ms-lg-auto mb-2 mb-lg-0">
+        <li class="nav-item mx-lg-3">
           <a class="nav-link" aria-current="page" routerLink="/books">
             <i class="fas fa-home-alt"></i>&nbsp;Home
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item mx-lg-3">
           <a class="nav-link" routerLink="my-books">
             <i class="fas fa-book"></i>&nbsp;My books
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item mx-lg-3">
           <a class="nav-link" routerLink="my-waiting-list">
             <i class="fas fa-heart"></i>&nbsp;My waiting list
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item mx-lg-3">
           <a class="nav-link" routerLink="my-returned-books">
             <i class="fa-solid fa-truck-fast"></i>&nbsp;My returned books
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item mx-lg-3 me-lg-5">
           <a class="nav-link" routerLink="my-borrowed-books">
             <i class="fas fa-list-check"></i>&nbsp;Borrowed books
           </a>
         </li>
       </ul>
-      <form class="d-flex gap-2 align-items-center" role="search">
-        <input class="form-control" type="search" placeholder="Find a book" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
+      <form class="d-flex gap-2 align-items-center mx-lg-auto" role="search">
+        <input class="form-control me-2" type="search" name="keyword"
+               placeholder="Enter your keyword..."
+               [(ngModel)]="keyword"
+               aria-label="Search">
+        <button class="btn btn-subtle" type="button" (click)="onSearch()">
+          <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+        </button>
+      </form>
+      <div>
         <span>Welcome</span>
         <span class="text-capitalize fw-bold">Isuru</span>
         <button class="btn btn-link" type="submit" (click)="logout()"><i class="fas fa-door-open"></i></button>
-      </form>
+      </div>
     </div>
   </div>
 </nav>
