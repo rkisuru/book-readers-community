@@ -1,0 +1,22 @@
+<div class="page-title">
+  <h3>Search Results for "{{ keyword }}"</h3>
+</div>
+<div
+  *ngIf="message"
+  class="alert "
+  [class.alert-danger]="level==='error'"
+  [class.alert-success]="level==='success'"
+  role="alert"
+>
+  <p>{{message}}</p>
+</div>
+<hr>
+
+<div class="d-flex justify-content-around gap-2 flex-wrap my-lg-5">
+  <app-book-card
+    *ngFor="let book of books"
+    [book]="book"
+    (borrow)="borrowBook($event)"
+    (details)="displayBookDetails($event)"
+  ></app-book-card>
+</div>
