@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -152,10 +151,10 @@ public class BookController {
         return ResponseEntity.ok(favouriteService.addToFavourites(connectedUser, bookId));
     }
 
-    @DeleteMapping("/favourites/{favId}")
-    public ResponseEntity<Map<String, String>> removeFromFavourites(@PathVariable Integer favId, Authentication connectedUser) {
+    @DeleteMapping("/favourites/{bookId}")
+    public ResponseEntity<Map<String, String>> removeFromFavourites(@PathVariable Integer bookId, Authentication connectedUser) {
 
-        favouriteService.removeFromFavourites(connectedUser, favId);
+        favouriteService.removeFromFavourites(connectedUser, bookId);
         Map<String, String> response = new HashMap<>();
         response.put("message", "Favourite removed successfully!");
         return ResponseEntity.ok()
@@ -167,6 +166,12 @@ public class BookController {
     public ResponseEntity<List<BookResponse>> getFavorites(Authentication connectedUser) {
 
         return ResponseEntity.ok(favouriteService.getAllFavourites(connectedUser));
+    }
+
+    @GetMapping("/favourites/{bookId}")
+    public ResponseEntity<Boolean> isFavouriteExist(@PathVariable("bookId") Integer bookId, Authentication connectedUser) {
+
+        return ResponseEntity.ok(favouriteService.isFavExist(connectedUser, bookId));
     }
 
     /*@GetMapping("/user-info")

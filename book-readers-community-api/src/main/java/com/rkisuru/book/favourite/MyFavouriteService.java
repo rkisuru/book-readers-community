@@ -4,7 +4,6 @@ import com.rkisuru.book.book.Book;
 import com.rkisuru.book.book.BookMapper;
 import com.rkisuru.book.book.BookRepository;
 import com.rkisuru.book.book.BookResponse;
-import com.rkisuru.book.exception.OperationNotPermittedException;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -41,14 +40,12 @@ public class MyFavouriteService {
         return repository.save(favourite).getId();
     }
 
-    public void removeFromFavourites(Authentication connectedUser, Integer favId) {
+    public void removeFromFavourites(Authentication connectedUser, Integer bookId) {
 
-        MyFavourite fav = repository.findById(favId)
+        MyFavourite fav = repository.findByBookIdUserId(bookId, connectedUser.getName())
                 .orElseThrow(()-> new EntityNotFoundException("Favourite not found"));
 
-        if (fav.getCreatedBy().equals(connectedUser.getName())) {
-            repository.delete(fav);
-        }
+        repository.delete(fav);
     }
 
     public List<BookResponse> getAllFavourites(Authentication connectedUser) {
@@ -61,5 +58,12 @@ public class MyFavouriteService {
         return books.stream()
                 .map(bookMapper::toBookResponse)
                 .toList();
+    }
+
+    public boolean isFavExist(Authentication connectedUser, Integer bookId) {
+
+        Optional<MyFavourite> optFav = repository.findByBookIdUserId(bookId, connectedUser.getName());
+
+        return optFav.isPresent();
     }
 }
