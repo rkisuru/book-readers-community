@@ -30,6 +30,8 @@ import { findBookById } from '../fn/book/find-book-by-id';
 import { FindBookById$Params } from '../fn/book/find-book-by-id';
 import { getFavorites } from '../fn/book/get-favorites';
 import { GetFavorites$Params } from '../fn/book/get-favorites';
+import { isFavouriteExist } from '../fn/book/is-favourite-exist';
+import { IsFavouriteExist$Params } from '../fn/book/is-favourite-exist';
 import { PageResponseBookResponse } from '../models/page-response-book-response';
 import { PageResponseBorrowedBookResponse } from '../models/page-response-borrowed-book-response';
 import { removeFromFavourites } from '../fn/book/remove-from-favourites';
@@ -415,6 +417,64 @@ export class BookService extends BaseService {
     );
   }
 
+  /** Path part for operation `isFavouriteExist()` */
+  static readonly IsFavouriteExistPath = '/books/favourites/{bookId}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `isFavouriteExist()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  isFavouriteExist$Response(params: IsFavouriteExist$Params, context?: HttpContext): Observable<StrictHttpResponse<boolean>> {
+    return isFavouriteExist(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `isFavouriteExist$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  isFavouriteExist(params: IsFavouriteExist$Params, context?: HttpContext): Observable<boolean> {
+    return this.isFavouriteExist$Response(params, context).pipe(
+      map((r: StrictHttpResponse<boolean>): boolean => r.body)
+    );
+  }
+
+  /** Path part for operation `removeFromFavourites()` */
+  static readonly RemoveFromFavouritesPath = '/books/favourites/{bookId}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `removeFromFavourites()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  removeFromFavourites$Response(params: RemoveFromFavourites$Params, context?: HttpContext): Observable<StrictHttpResponse<{
+[key: string]: string;
+}>> {
+    return removeFromFavourites(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `removeFromFavourites$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  removeFromFavourites(params: RemoveFromFavourites$Params, context?: HttpContext): Observable<{
+[key: string]: string;
+}> {
+    return this.removeFromFavourites$Response(params, context).pipe(
+      map((r: StrictHttpResponse<{
+[key: string]: string;
+}>): {
+[key: string]: string;
+} => r.body)
+    );
+  }
+
   /** Path part for operation `getFavorites()` */
   static readonly GetFavoritesPath = '/books/favorites';
 
@@ -462,31 +522,6 @@ export class BookService extends BaseService {
   findAllBorrowedBooks(params?: FindAllBorrowedBooks$Params, context?: HttpContext): Observable<PageResponseBorrowedBookResponse> {
     return this.findAllBorrowedBooks$Response(params, context).pipe(
       map((r: StrictHttpResponse<PageResponseBorrowedBookResponse>): PageResponseBorrowedBookResponse => r.body)
-    );
-  }
-
-  /** Path part for operation `removeFromFavourites()` */
-  static readonly RemoveFromFavouritesPath = '/books/favourites/{favId}';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `removeFromFavourites()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  removeFromFavourites$Response(params: RemoveFromFavourites$Params, context?: HttpContext): Observable<StrictHttpResponse<string>> {
-    return removeFromFavourites(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `removeFromFavourites$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  removeFromFavourites(params: RemoveFromFavourites$Params, context?: HttpContext): Observable<string> {
-    return this.removeFromFavourites$Response(params, context).pipe(
-      map((r: StrictHttpResponse<string>): string => r.body)
     );
   }
 
