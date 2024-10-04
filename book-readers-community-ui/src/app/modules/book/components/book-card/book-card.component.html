@@ -1,31 +1,41 @@
 <div
-  class="card"
-  [class.border-success]="book.shareable"
+  class="card card-component"
+  [class.border-muted]="book.shareable"
   [class.border-warning]="book.archived"
 >
   <img [src]="bookCover" class="card-img-top" alt="...">
-  <div class="card-body overflow-scroll">
+  <div class="card-body overflow-hidden">
     <h5 class="card-title fs-10 text-nowrap fw-bold mb-1"><i class="fa-solid fa-book"></i>&nbsp;{{book.title}}</h5>
     <h5 class="card-subtitle fs-6 text-secondary mb-1"><i class="fa-solid fa-user-check"></i>&nbsp;{{ book.authorName }}</h5>
     <hr>
     <p class="card-text">{{book.synopsis}}</p>
   </div>
-  <div class="card-footer d-flex gap-2 justify-content-between align-items-center">
+  <div class="card-footer d-flex gap-2 justify-content-between align-items-center card-component">
     <div class="d-flex gap-2">
       <app-rating [rating]="book.rate || 0"></app-rating>
       <span class="fw-bold" *ngIf="book.rate || 0 > 0">
         {{book.rate}}
       </span>
     </div>
-    <div class="d-flex gap-2" *ngIf="!manage">
-      <i (click)="onShowDetails()" class="fas fa-circle-info text-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Show details"></i>
-      <i (click)="onBorrow()" class="fas fa-list-check text-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Borrow"></i>
-      <i (click)="onAddToWaitingList()" class="fas fa-heart text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add to waiting list"></i>
+    <div class="d-flex gap-2" *ngIf="!manage && !fav && !isAvailable">
+      <i (click)="onShowDetails()" class="fas fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Show details"></i>
+      <i (click)="onBorrow()" class="fas fa-list-check" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Borrow"></i>
+      <i (click)="onAddToFavourites()" class="fas fa-heart" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add to favourites"></i>
     </div>
-    <div class="d-flex gap-2" *ngIf="manage">
-      <i (click)="onEdit()" class="fas fa-edit text-success" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit"></i>
-      <i (click)="onShare()" class="fas fa-share-nodes text-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Shareable"></i>
-      <i (click)="onArchive()" class="fas fa-archive text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Archive"></i>
+    <div class="d-flex gap-2" *ngIf="!manage && !fav && isAvailable">
+      <i (click)="onShowDetails()" class="fas fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Show details"></i>
+      <i (click)="onBorrow()" class="fas fa-list-check" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Borrow"></i>
+      <i (click)="onRemoveFavourite()" class="fas fa-heart" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove favourite"></i>
+    </div>
+    <div class="d-flex gap-2" *ngIf="manage && !fav">
+      <i (click)="onEdit()" class="fas fa-edit" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit"></i>
+      <i (click)="onShare()" class="fas fa-share-nodes" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Shareable"></i>
+      <i (click)="onArchive()" class="fas fa-archive" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Archive"></i>
+    </div>
+    <div class="d-flex gap-2" *ngIf="!manage && fav">
+      <i (click)="onShowDetails()" class="fas fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Show details"></i>
+      <i (click)="onBorrow()" class="fas fa-list-check" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Borrow"></i>
+      <i (click)="onRemoveFavourite()" class="fas fa-heart" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove favourite"></i>
     </div>
   </div>
 </div>

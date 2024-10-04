@@ -1,9 +1,10 @@
+<div class="base">
 <div>
   <h1 class="page-title">My Books</h1>
 </div>
 <hr>
 <div class="d-flex justify-content-end my-4 pe-3">
-  <a routerLink="/books/manage" class="btn btn-outline-primary">
+  <a routerLink="/books/manage" [ngClass]="!isDarkMode?'btn btn-outline-dark':'btn btn-outline-light'">
     <i class="fas fa-plus"></i>&nbsp;New book
   </a>
 </div>
@@ -12,13 +13,14 @@
     *ngFor="let book of bookResponse.content"
     [book]="book"
     [manage]="true"
+    [fav]="false"
     (archive)="archiveBook($event)"
     (share)="shareBook($event)"
     (edit)="editBook($event)"
   ></app-book-card>
 </div>
 <div class="d-flex justify-content-center">
-  <nav aria-label="Page navigation example">
+  <nav aria-label="Page navigation example" class="base">
     <ul class="pagination">
       <li class="page-item">
         <a
@@ -77,4 +79,5 @@
       </li>
     </ul>
   </nav>
+</div>
 </div>

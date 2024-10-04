@@ -1,12 +1,12 @@
-<div class="p-2">
+<div class="p-2 base text-center">
   <h2>Manage my book</h2>
   <hr>
   <div class="alert alert-danger mt-2" role="alert" *ngIf="errorMsg.length">
     <p class="p-0 m-0" *ngFor="let msg of errorMsg">{{msg}}</p>
   </div>
-  <div class="d-flex gap-2">
-    <div class="col-3">
-      <img class="rounded-1" width="100%" height="100%" [src]=" selectedPicture || 'https://source.unsplash.com/user/c_v_r/1900x800'" alt="">
+  <div class="d-flex gap-2 justify-content-evenly align-items-center mt-5">
+    <div class="col-3" style="height: 500px">
+      <img class="rounded-1 bg-secondary" width="100%" height="100%" [src]=" selectedPicture || 'https://source.unsplash.com/user/c_v_r/1900x800'" alt="">
       <div class="mt-2">
         <input
           (change)="onFileSelected($event)"
@@ -17,7 +17,7 @@
         >
       </div>
     </div>
-    <div class="col-9">
+    <div class="col-5">
       <form class="row g-3">
         <div class="col-12">
           <label for="title" class="form-label">Title</label>

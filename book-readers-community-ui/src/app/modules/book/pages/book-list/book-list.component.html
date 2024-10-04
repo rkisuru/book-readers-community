@@ -1,3 +1,4 @@
+<div class="base">
 <div class="page-title">
   <h1>Available Books</h1>
 </div>
@@ -16,12 +17,17 @@
   <app-book-card
     *ngFor="let book of bookResponse.content"
     [book]="book"
+    [manage] = "false"
+    [fav] = "false"
+    [isAvailable] = "isExist"
     (borrow)="borrowBook($event)"
     (details)="displayBookDetails($event)"
+    (addToFavourites)="addToFavourite($event)"
+    (removeFav)="removeFavourite($event)"
   ></app-book-card>
 </div>
 <div class="d-flex justify-content-center mt-3">
-  <nav aria-label="Page navigation example">
+  <nav aria-label="Page navigation example" class="base">
     <ul class="pagination">
       <li class="page-item">
         <a
@@ -80,4 +86,5 @@
       </li>
     </ul>
   </nav>
+</div>
 </div>

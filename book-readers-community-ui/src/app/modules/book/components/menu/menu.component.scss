@@ -1,8 +1,8 @@
 li > a {
   &:hover {
-    background-color: #d6e5f1;
+    background-color: #212529;
     border-radius: 5px;
-    text-decoration: underline;
+    color: white;
   }
   &.active {
     color: #24a7e9;
@@ -13,3 +13,13 @@ li > a {
 .logo {
   max-width: 100px;
 }
+
+.li, a{
+  background-color: var(--background-colorc);
+  color: var(--text-color);
+}
+
+.custom {
+  background-color: var(--background-color) !important;
+}
+

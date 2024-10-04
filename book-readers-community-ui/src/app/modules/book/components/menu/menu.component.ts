@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {KeycloakService} from "../../../../services/keycloak/keycloak.service";
 import {Router} from "@angular/router";
+import {ThemeService} from "../../../../services/theme/theme.service";
 
 @Component({
   selector: 'app-menu',
@@ -11,9 +12,12 @@ export class MenuComponent implements OnInit{
 
   keyword: string = '';
 
+  isDarkMode!: boolean;
+
   constructor(
     private keycloakService: KeycloakService,
-    private router: Router
+    private router: Router,
+    private themeService: ThemeService,
   ) {
   }
 
@@ -39,4 +43,10 @@ export class MenuComponent implements OnInit{
       this.router.navigate(['/books/search'], {queryParams: {keyword: this.keyword}});
     }
   }
+
+  toggleTheme(): void {
+    this.themeService.toggleTheme();
+    this.isDarkMode = this.themeService.isDarkModeEnabled();
+  }
+
 }

@@ -1,3 +1,13 @@
 i {
   cursor: pointer;
 }
+
+th, td {
+  background-color: var(--background-colorc) !important;
+  color: var(--text-color);
+}
+
+li, a {
+  background-color: var(--background-colorc);
+  color: var(--text-color);
+}

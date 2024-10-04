@@ -10,6 +10,8 @@ export class BookCardComponent {
   private _book: BookResponse = {};
   private _manage = false;
   private _bookCover: string | undefined;
+  private _fav = false;
+  private _isAvailable = false;
 
   get bookCover(): string | undefined {
     if (this._book.cover) {
@@ -27,9 +29,16 @@ export class BookCardComponent {
     this._book = value;
   }
 
-
   get manage(): boolean {
     return this._manage;
+  }
+
+  get fav(): boolean {
+    return this._fav;
+  }
+
+  get isAvailable(): boolean {
+    return this._isAvailable;
   }
 
   @Input()
@@ -37,12 +46,26 @@ export class BookCardComponent {
     this._manage = value;
   }
 
+  @Input()
+  set fav(value: boolean) {
+    this._fav = value;
+  }
+
+  @Input()
+  set isAvailable(value: boolean) {
+    this._isAvailable = value;
+  }
+
+  @Input()
+
   @Output() private share: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
   @Output() private archive: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
-  @Output() private addToWaitingList: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
+  @Output() private addToFavourites: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
   @Output() private borrow: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
   @Output() private edit: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
   @Output() private details: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
+  @Output() private removeFav: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
+
 
   onShare() {
     this.share.emit(this._book);
@@ -52,8 +75,8 @@ export class BookCardComponent {
     this.archive.emit(this._book);
   }
 
-  onAddToWaitingList() {
-    this.addToWaitingList.emit(this._book);
+  onAddToFavourites() {
+    this.addToFavourites.emit(this._book);
   }
 
   onBorrow() {
@@ -66,5 +89,9 @@ export class BookCardComponent {
 
   onShowDetails() {
     this.details.emit(this._book);
+  }
+
+  onRemoveFavourite() {
+    this.removeFav.emit(this._book);
   }
 }

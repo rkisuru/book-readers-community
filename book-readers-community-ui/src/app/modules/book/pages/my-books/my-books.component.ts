@@ -3,6 +3,7 @@ import {PageResponseBookResponse} from '../../../../services/models/page-respons
 import {BookService} from '../../../../services/services/book.service';
 import {BookResponse} from '../../../../services/models/book-response';
 import {Router} from '@angular/router';
+import {ThemeService} from "../../../../services/theme/theme.service";
 
 @Component({
   selector: 'app-my-books',
@@ -16,9 +17,12 @@ export class MyBooksComponent implements OnInit {
   size = 5;
   pages: any = [];
 
+  isDarkMode: boolean = false;
+
   constructor(
     private bookService: BookService,
-    private router: Router
+    private router: Router,
+    private themeService: ThemeService,
   ) {
   }
 

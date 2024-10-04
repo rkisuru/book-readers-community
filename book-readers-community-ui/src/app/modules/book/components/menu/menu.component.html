@@ -1,51 +1,56 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary px-lg-5 py-lg-0">
+<nav class="navbar navbar-expand-lg bg-body-tertiary px-lg-5 px-md-3 px-sm-2 mt-2 custom">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink="#"><img src="/brc_light.png" alt="light-logo" class="logo"></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      <img *ngIf="isDarkMode" src="/logo-dark.png" alt="light-logo" class="logo base">
+      <img *ngIf="!isDarkMode" src="/logo-light.png" alt="light-logo" class="logo base">
+    <button [ngClass]="!isDarkMode?'navbar-toggler mb-2 btn btn-outline-light':'navbar-toggler mb-2 btn btn-outline-light'" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+      <span class="navbar-toggler-icon "></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse base" id="navbarSupportedContent">
       <ul class="navbar-nav ms-lg-auto mb-2 mb-lg-0">
-        <li class="nav-item mx-lg-3">
-          <a class="nav-link" aria-current="page" routerLink="/books">
-            <i class="fas fa-home-alt"></i>&nbsp;Home
+        <li class="nav-item mx-lg-3 mt-1">
+          <a class="nav-link d-flex align-items-center" aria-current="page" routerLink="/books">
+            <i class="fas fa-home-alt" style="font-size: 24px"></i><span class="d-lg-none d-xl-none d-xxl-inline">&nbsp;Home</span>
           </a>
         </li>
-        <li class="nav-item mx-lg-3">
-          <a class="nav-link" routerLink="my-books">
-            <i class="fas fa-book"></i>&nbsp;My books
+        <li class="nav-item mx-lg-3 mt-1">
+          <a class="nav-link d-flex align-items-center" routerLink="my-books">
+            <i class="fas fa-book" style="font-size: 24px"></i><span class="d-lg-none d-xl-none d-xxl-inline">&nbsp;My Books</span>
           </a>
         </li>
-        <li class="nav-item mx-lg-3">
-          <a class="nav-link" routerLink="my-waiting-list">
-            <i class="fas fa-heart"></i>&nbsp;My waiting list
+        <li class="nav-item mx-lg-3 mt-1">
+          <a class="nav-link d-flex align-items-center" routerLink="favourites">
+            <i class="fas fa-heart" style="font-size: 24px"></i><span class="d-lg-none d-xl-none d-xxl-inline">&nbsp;My Favourites</span>
           </a>
         </li>
-        <li class="nav-item mx-lg-3">
-          <a class="nav-link" routerLink="my-returned-books">
-            <i class="fa-solid fa-truck-fast"></i>&nbsp;My returned books
+        <li class="nav-item mx-lg-3 mt-1">
+          <a class="nav-link d-flex align-items-center" routerLink="my-returned-books">
+            <i class="fa-solid fa-truck-fast" style="font-size: 24px"></i><span class="d-lg-none d-xl-none d-xxl-inline">&nbsp;Returned Books</span>
           </a>
         </li>
-        <li class="nav-item mx-lg-3 me-lg-5">
-          <a class="nav-link" routerLink="my-borrowed-books">
-            <i class="fas fa-list-check"></i>&nbsp;Borrowed books
+        <li class="nav-item mx-lg-3 me-lg-auto mt-1">
+          <a class="nav-link d-flex align-items-center" routerLink="my-borrowed-books">
+            <i class="fas fa-list-check" style="font-size: 24px"></i><span class="d-lg-none d-xl-none d-xxl-inline">&nbsp;Borrowed Books</span>
           </a>
         </li>
       </ul>
-      <form class="d-flex gap-2 align-items-center mx-lg-auto" role="search">
+      <form class="d-flex align-items-center ms-auto" role="search">
         <input class="form-control me-2" type="search" name="keyword"
                placeholder="Enter your keyword..."
                [(ngModel)]="keyword"
                aria-label="Search">
-        <button class="btn btn-subtle" type="button" (click)="onSearch()">
+        <button [ngClass]="!isDarkMode?'btn btn-outline-dark':'btn btn-outline-light'" type="button" (click)="onSearch()">
           <i class="fa-solid fa-magnifying-glass fa-lg"></i>
         </button>
       </form>
-      <div>
-        <span>Welcome</span>
-        <span class="text-capitalize fw-bold">Isuru</span>
-        <button class="btn btn-link" type="submit" (click)="logout()"><i class="fas fa-door-open"></i></button>
+      <div class="d-flex flex-row ms-auto align-items-center mt-2 mt-lg-0">
+        <div *ngIf="isDarkMode" class="ms-1 ms-lg-auto me-5 me-lg-4">
+          <i class="fa fa-toggle-off" style="font-size:36px" (click)="toggleTheme()"></i>
+        </div>
+        <div *ngIf="!isDarkMode" class="ms-1 ms-lg-auto me-5 me-lg-4">
+          <i class="fa fa-toggle-on me-1 me-lg-0" style="font-size:36px" (click)="toggleTheme()"></i>
+        </div>
+        <i class="fas fa-door-open ms-auto" style="font-size: 24px; cursor: pointer" (click)="logout()"></i>
       </div>
     </div>
   </div>
