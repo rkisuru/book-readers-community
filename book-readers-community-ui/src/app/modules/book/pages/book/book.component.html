@@ -1,0 +1,37 @@
+<div class="container d-flex">
+  <div class="section1 d-flex flex-column align-items-center mt-3 mt-lg-5">
+    <div>
+      <img class="cover" [src]="book.cover" alt="Book Cover">
+    </div>
+    <div class="buttons d-flex justify-content-around flex-row">
+      <a [ngClass]="!isDarkMode?'btn btn-outline-dark me-4':'btn btn-outline-light'">
+        Borrow Book
+      </a>
+      <a [ngClass]="!isDarkMode?'btn btn-outline-dark ms-4':'btn btn-outline-light'">
+        Add to Favourites
+      </a>
+    </div>
+  </div>
+  <div class="section2 d-flex flex-column align-items-start ms-5 mt-3 mt-lg-4">
+    <div class="title-container text-center">
+      <h1 class="title">{{ book.title }}</h1>
+    </div>
+    <div class="d-flex flex-column mt-5">
+      <div class="d-flex flex-md-column flex-sm-column flex-lg-row justify-content-between me-3 ms-3 mx-md-3">
+        <h4 class="me-4 ms-sm-4">Author: {{ book.authorName }}</h4>
+        <h4 class="ms-lg-4 ms-sm-4">ISBN: {{ book.isbn }}</h4>
+      </div>
+      <div class="mt-3 ms-3">
+        <div class="d-flex gap-2">
+          <span class="fw-bold ms-sm-4" *ngIf="book.rate || 0 > 0">
+            Ratings: {{book.rate}}
+          </span>
+          <app-rating [rating]="book.rate || 0"></app-rating>
+        </div>
+      </div>
+    </div>
+    <div class="synopsis mt-2 overflow-auto">
+      <p class="description me-3 ms-3">{{ book.synopsis }}</p>
+    </div>
+  </div>
+</div>
