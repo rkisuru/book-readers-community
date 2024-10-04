@@ -8,6 +8,8 @@ import {BorrowedBookListComponent} from "./pages/borrowed-book-list/borrowed-boo
 import {ReturnedBooksComponent} from "./pages/return-books/return-books.component";
 import {authGuard} from "../../services/guard/auth.guard";
 import {SearchResultComponent} from "./pages/search-result/search-result.component";
+import {FavouritesComponent} from "./pages/favourites/favourites.component";
+import {BookComponent} from "./pages/book/book.component";
 
 const routes: Routes = [
   {
@@ -42,6 +44,14 @@ const routes: Routes = [
         path: 'search', component: SearchResultComponent,
         canActivate: [authGuard]
       },
+      {
+        path: 'favourites', component: FavouritesComponent,
+        canActivate: [authGuard]
+      },
+      {
+        path: ':bookId', component: BookComponent,
+        canActivate: [authGuard]
+      }
 
     ]
   },

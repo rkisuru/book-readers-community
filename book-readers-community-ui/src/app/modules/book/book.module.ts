@@ -13,6 +13,8 @@ import {FormsModule} from "@angular/forms";
 import { BorrowedBookListComponent } from './pages/borrowed-book-list/borrowed-book-list.component';
 import {ReturnedBooksComponent} from "./pages/return-books/return-books.component";
 import { SearchResultComponent } from './pages/search-result/search-result.component';
+import { BookComponent } from './pages/book/book.component';
+import { FavouritesComponent } from './pages/favourites/favourites.component';
 
 
 @NgModule({
@@ -26,7 +28,9 @@ import { SearchResultComponent } from './pages/search-result/search-result.compo
     ManageBookComponent,
     BorrowedBookListComponent,
     ReturnedBooksComponent,
-    SearchResultComponent
+    SearchResultComponent,
+    BookComponent,
+    FavouritesComponent
   ],
   imports: [
     CommonModule,
