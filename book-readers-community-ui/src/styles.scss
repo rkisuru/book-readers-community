@@ -6,3 +6,26 @@
   width: 800px;
   margin-top: 15%;
 }
+
+/* Default light theme */
+:root {
+  --background-color: white;
+  --text-color: black;
+  --navbar-background-color: #f8f9fa;
+}
+
+/* Dark theme */
+.dark-theme {
+  --background-color: #121212;
+  --text-color: #e0e0e0;
+  --navbar-background-color: #343a40;
+}
+
+.base {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+nav {
+  background-color: var(--navbar-background-color);
+}

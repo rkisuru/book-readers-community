@@ -619,6 +619,69 @@
         }
       }
     },
+    "/books/favourites/{bookId}": {
+      "get": {
+        "tags": [
+          "book"
+        ],
+        "operationId": "isFavouriteExist",
+        "parameters": [
+          {
+            "name": "bookId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "book"
+        ],
+        "operationId": "removeFromFavourites",
+        "parameters": [
+          {
+            "name": "bookId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/books/favorites": {
       "get": {
         "tags": [
@@ -690,37 +753,6 @@
           "admin-controller"
         ],
         "operationId": "helloAdmin",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/books/favourites/{favId}": {
-      "delete": {
-        "tags": [
-          "book"
-        ],
-        "operationId": "removeFromFavourites",
-        "parameters": [
-          {
-            "name": "favId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK",
