@@ -1,0 +1,27 @@
+<div class="base">
+<div class="page-title">
+  <h3>My Favorites</h3>
+</div>
+<div
+  *ngIf="message"
+  class="alert "
+  [class.alert-danger]="level==='error'"
+  [class.alert-success]="level==='success'"
+  role="alert"
+>
+  <p>{{message}}</p>
+</div>
+<hr>
+
+<div class="d-flex justify-content-around gap-2 flex-wrap my-lg-5">
+  <app-book-card
+    *ngFor="let book of books"
+    [book]="book"
+    [manage]="false"
+    [fav]="true"
+    (borrow)="borrowBook($event)"
+    (details)="displayBookDetails($event)"
+    (removeFav)="removeFavourite($event)"
+  ></app-book-card>
+</div>
+</div>
