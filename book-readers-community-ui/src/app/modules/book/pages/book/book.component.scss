@@ -16,22 +16,6 @@
   width: 100%;
 }
 
-@media only screen and (max-width: 600px) {
-  .cover {
-    height: 300px;
-    width: 250px;
-    margin-bottom: 20px;
-  }
-
-  .container {
-    flex-direction: column;
-  }
-
-  .title-container {
-    width: 400px;
-  }
-}
-
 @media only screen and (max-width: 768px) {
 
   .cover {

@@ -3,6 +3,7 @@ import {BookResponse} from "../../../../services/models/book-response";
 import {BookService} from "../../../../services/services/book.service";
 import {ActivatedRoute} from "@angular/router";
 import {ThemeService} from "../../../../services/theme/theme.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-book',
@@ -14,13 +15,15 @@ export class BookComponent implements OnInit {
   bookId!: number;
   book: BookResponse = {};
   private _bookCover: string | undefined;
-
-  isDarkMode: boolean = false;
+  message = '';
+  level: 'success' |'error' = 'success';
 
   constructor(
     private bookService: BookService,
     private activatedRoute: ActivatedRoute,
-    private themeService: ThemeService,)
+    private themeService: ThemeService,
+    private toastService: ToastrService,
+    )
   {}
 
   bookCover(): string | undefined {
@@ -43,4 +46,35 @@ export class BookComponent implements OnInit {
       });
     }
   }
+
+  borrowBook() {
+    this.message = '';
+    this.level = 'success';
+    this.bookService.borrowBook({
+      'book-id': this.book.id as number
+    }).subscribe({
+      next: () => {
+        this.toastService.success("Book borrowed successfully!");
+      },
+      error: (err) => {
+        this.toastService.error(err.error.error, "Oops! You can't borrow this book");
+      }
+    });
+  }
+
+  addToFavourite() {
+    this.message = '';
+    this.level = 'success';
+    this.bookService.addToFavourites({
+      'bookId': this.book.id as number
+    }).subscribe({
+      next: () => {
+        this.toastService.success("Book added to favourites!");
+      },
+      error: (err) => {
+        this.toastService.error(err.error.error, "Oops! You already add this book to favourites");
+      }
+    });
+  }
+
 }

@@ -1,27 +1,27 @@
 <div class="container d-flex">
-  <div class="section1 d-flex flex-column align-items-center mt-3 mt-lg-5">
+  <div class="section1 d-flex flex-column align-items-center mt-3 mt-lg-5 me-xl-1 me-xxl-5">
     <div>
       <img class="cover" [src]="book.cover" alt="Book Cover">
     </div>
-    <div class="buttons d-flex justify-content-around flex-row">
-      <a [ngClass]="!isDarkMode?'btn btn-outline-dark me-4':'btn btn-outline-light'">
+    <div class="buttons d-flex justify-content-around flex-row mt-3">
+      <a class="btn btn-outline-primary me-5"  (click)="borrowBook()">
         Borrow Book
       </a>
-      <a [ngClass]="!isDarkMode?'btn btn-outline-dark ms-4':'btn btn-outline-light'">
+      <a class="btn btn-outline-warning ms-auto" (click)="addToFavourite()">
         Add to Favourites
       </a>
     </div>
   </div>
-  <div class="section2 d-flex flex-column align-items-start ms-5 mt-3 mt-lg-4">
+  <div class="section2 d-flex flex-column align-items-start ms-md-4 ms-xl-5 mt-3 mt-lg-4 mx-sm-0 me-xl-2">
     <div class="title-container text-center">
       <h1 class="title">{{ book.title }}</h1>
     </div>
     <div class="d-flex flex-column mt-5">
-      <div class="d-flex flex-md-column flex-sm-column flex-lg-row justify-content-between me-3 ms-3 mx-md-3">
-        <h4 class="me-4 ms-sm-4">Author: {{ book.authorName }}</h4>
-        <h4 class="ms-lg-4 ms-sm-4">ISBN: {{ book.isbn }}</h4>
+      <div class="d-flex flex-md-row mx-md-0 flex-lg-row justify-content-between me-3 ms-3 mx-md-3">
+        <h4 class="me-4">Author: {{ book.authorName }}</h4>
+        <h4 class="ms-lg-4 ms-sm-2">ISBN: {{ book.isbn }}</h4>
       </div>
-      <div class="mt-3 ms-3">
+      <div class="mt-3 ms-3 ms-sm-0">
         <div class="d-flex gap-2">
           <span class="fw-bold ms-sm-4" *ngIf="book.rate || 0 > 0">
             Ratings: {{book.rate}}
@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="synopsis mt-2 overflow-auto">
-      <p class="description me-3 ms-3">{{ book.synopsis }}</p>
+      <p class="description me-3 ms-3 md-mx-0">{{ book.synopsis }}</p>
     </div>
   </div>
 </div>
