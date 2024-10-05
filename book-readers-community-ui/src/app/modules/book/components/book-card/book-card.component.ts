@@ -11,7 +11,6 @@ export class BookCardComponent {
   private _manage = false;
   private _bookCover: string | undefined;
   private _fav = false;
-  private _isAvailable = false;
 
   get bookCover(): string | undefined {
     if (this._book.cover) {
@@ -37,10 +36,6 @@ export class BookCardComponent {
     return this._fav;
   }
 
-  get isAvailable(): boolean {
-    return this._isAvailable;
-  }
-
   @Input()
   set manage(value: boolean) {
     this._manage = value;
@@ -50,13 +45,6 @@ export class BookCardComponent {
   set fav(value: boolean) {
     this._fav = value;
   }
-
-  @Input()
-  set isAvailable(value: boolean) {
-    this._isAvailable = value;
-  }
-
-  @Input()
 
   @Output() private share: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();
   @Output() private archive: EventEmitter<BookResponse> = new EventEmitter<BookResponse>();

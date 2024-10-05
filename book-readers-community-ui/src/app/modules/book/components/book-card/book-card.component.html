@@ -17,15 +17,10 @@
         {{book.rate}}
       </span>
     </div>
-    <div class="d-flex gap-2" *ngIf="!manage && !fav && !isAvailable">
+    <div class="d-flex gap-2" *ngIf="!manage && !fav">
       <i (click)="onShowDetails()" class="fas fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Show details"></i>
       <i (click)="onBorrow()" class="fas fa-list-check" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Borrow"></i>
       <i (click)="onAddToFavourites()" class="fas fa-heart" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add to favourites"></i>
-    </div>
-    <div class="d-flex gap-2" *ngIf="!manage && !fav && isAvailable">
-      <i (click)="onShowDetails()" class="fas fa-circle-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Show details"></i>
-      <i (click)="onBorrow()" class="fas fa-list-check" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Borrow"></i>
-      <i (click)="onRemoveFavourite()" class="fas fa-heart" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove favourite"></i>
     </div>
     <div class="d-flex gap-2" *ngIf="manage && !fav">
       <i (click)="onEdit()" class="fas fa-edit" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit"></i>
