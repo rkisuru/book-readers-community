@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {BookService} from "../../../../services/services/book.service";
 import {BookResponse} from "../../../../services/models/book-response";
 import {HttpClient} from "@angular/common/http";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-favourites',
@@ -20,7 +21,8 @@ export class FavouritesComponent implements OnInit {
   constructor(
     private router: Router,
     private bookService: BookService,
-    private http: HttpClient
+    private http: HttpClient,
+    private toastService: ToastrService,
   ) {
   }
 
@@ -57,13 +59,10 @@ export class FavouritesComponent implements OnInit {
       'book-id': book.id as number
     }).subscribe({
       next: () => {
-        this.level = 'success';
-        this.message = 'Book successfully added to your list';
+        this.toastService.success("Book borrowed successfully!");
       },
       error: (err) => {
-        console.log(err);
-        this.level = 'error';
-        this.message = err.error.error;
+        this.toastService.error(err.error.error, "Oops! You can't borrow this book, Book is already Borrowed");
       }
     });
   }
@@ -75,14 +74,11 @@ export class FavouritesComponent implements OnInit {
       'bookId': book.id as number
     }).subscribe({
       next: () => {
-        this.level = 'success';
-        this.message = 'Successfully removed favourite !';
         location.reload();
+        this.toastService.success("Book removed from favourites!");
       },
       error: (err) => {
-        console.log(err);
-        this.level = 'error';
-        this.message = err.error.error;
+        this.toastService.error(err.error.error, "Oops!");
       }
     });
   }

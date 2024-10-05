@@ -3,6 +3,7 @@ import {BookService} from '../../../../services/services/book.service';
 import {PageResponseBookResponse} from '../../../../services/models/page-response-book-response';
 import {BookResponse} from '../../../../services/models/book-response';
 import {Router} from '@angular/router';
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-book-list',
@@ -16,13 +17,12 @@ export class BookListComponent implements OnInit {
   pages: any = [];
   message = '';
   level: 'success' |'error' = 'success';
-  isExist: boolean = true;
-  bookRes: Array<BookResponse> | undefined = [];
   i!: number;
 
   constructor(
     private bookService: BookService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastrService,
   ) {
   }
 
@@ -41,14 +41,6 @@ export class BookListComponent implements OnInit {
           this.pages = Array(this.bookResponse.totalPages)
             .fill(0)
             .map((x, i) => i);
-
-          this.bookRes = this.bookResponse.content;
-
-          // @ts-ignore
-          for(this.i=0; this.i<this.bookRes.length; this.i++) {
-            // @ts-ignore
-            this.isFavExist(this.bookRes[this.i]);
-          }
         }
       });
   }
@@ -89,26 +81,12 @@ export class BookListComponent implements OnInit {
       'book-id': book.id as number
     }).subscribe({
       next: () => {
-        this.level = 'success';
-        this.message = 'Book successfully added to your list';
+        this.toastService.success("Book borrowed successfully!");
       },
       error: (err) => {
-        console.log(err);
-        this.level = 'error';
-        this.message = err.error.error;
+        this.toastService.error(err.error.error, "Oops! You can't borrow this book");
       }
     });
-  }
-
-  isFavExist(book: BookResponse) {
-    this.bookService.isFavouriteExist({
-      'bookId': book.id as number
-    }).subscribe({
-      next: result => {
-        this.isExist = result;
-        console.log(result);
-      }
-    })
   }
 
   addToFavourite(book: BookResponse) {
@@ -118,32 +96,10 @@ export class BookListComponent implements OnInit {
       'bookId': book.id as number
     }).subscribe({
       next: () => {
-        this.level = 'success';
-        this.message = 'Book added to your favourite list';
+        this.toastService.success("Book added to favourites!");
       },
       error: (err) => {
-        console.log(err);
-        this.level = 'error';
-        this.message = err.error.error;
-      }
-    });
-  }
-
-  removeFavourite(book: BookResponse) {
-    this.message = '';
-    this.level = 'success';
-    this.bookService.removeFromFavourites({
-      'bookId': book.id as number
-    }).subscribe({
-      next: () => {
-        this.level = 'success';
-        this.message = 'Successfully removed favourite !';
-        location.reload();
-      },
-      error: (err) => {
-        console.log(err);
-        this.level = 'error';
-        this.message = err.error.error;
+        this.toastService.error(err.error.error, "Oops! You already add this book to favourites");
       }
     });
   }

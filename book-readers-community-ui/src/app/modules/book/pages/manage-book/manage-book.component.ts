@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BookRequest} from '../../../../services/models/book-request';
 import {BookService} from '../../../../services/services/book.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-manage-book',
@@ -26,7 +27,8 @@ export class ManageBookComponent implements OnInit {
   constructor(
     private bookService: BookService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private toastService: ToastrService
   ) {
   }
 
@@ -71,8 +73,7 @@ export class ManageBookComponent implements OnInit {
         });
       },
       error: (err) => {
-        console.log(err.error);
-        this.errorMsg = err.error.validationErrors;
+        this.toastService.error(err.error.error, "Please enter valid data!");
       }
     });
   }

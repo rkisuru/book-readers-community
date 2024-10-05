@@ -19,11 +19,9 @@
     [book]="book"
     [manage] = "false"
     [fav] = "false"
-    [isAvailable] = "isExist"
     (borrow)="borrowBook($event)"
     (details)="displayBookDetails($event)"
     (addToFavourites)="addToFavourite($event)"
-    (removeFav)="removeFavourite($event)"
   ></app-book-card>
 </div>
 <div class="d-flex justify-content-center mt-3">

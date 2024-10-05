@@ -2,6 +2,22 @@
   <div class="container-fluid">
       <img *ngIf="isDarkMode" src="/logo-dark.png" alt="light-logo" class="logo base">
       <img *ngIf="!isDarkMode" src="/logo-light.png" alt="light-logo" class="logo base">
+
+      <div class="dropdown cursor-pointer d-lg-none ms-auto me-4" (click)="unreadNotificationsCount = 0">
+        <i class="fas fa-bell position-relative h4" style="font-size: 30px" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle" *ngIf="unreadNotificationsCount > 0">
+              <span class="visually-hidden">New alerts</span>
+            </span>
+        </i>
+        <ul class="dropdown-menu">
+          <li *ngFor="let notification of notifications">
+              <span class="dropdown-item cursor-pointer border-bottom">
+                <i class="fas fa-bell"></i>&nbsp; {{notification.title}} : {{notification.message}}
+              </span>
+          </li>
+        </ul>
+      </div>
+
     <button [ngClass]="!isDarkMode?'navbar-toggler mb-2 btn btn-outline-light':'navbar-toggler mb-2 btn btn-outline-light'" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon "></span>
@@ -34,6 +50,20 @@
           </a>
         </li>
       </ul>
+      <div class="dropdown cursor-pointer d-sm-none d-lg-inline mt-2 ms-5 me-2 bell" (click)="unreadNotificationsCount = 0">
+        <i class="fas fa-bell position-relative h4" style="font-size: 26px" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle" *ngIf="unreadNotificationsCount > 0">
+              <span class="visually-hidden">New alerts</span>
+            </span>
+        </i>
+        <ul class="dropdown-menu">
+          <li *ngFor="let notification of notifications">
+              <span class="dropdown-item cursor-pointer border-bottom">
+                <i class="fas fa-bell"></i>&nbsp; {{notification.title}} : {{notification.message}}
+              </span>
+          </li>
+        </ul>
+      </div>
       <form class="d-flex align-items-center ms-auto" role="search">
         <input class="form-control me-2" type="search" name="keyword"
                placeholder="Enter your keyword..."
@@ -50,7 +80,8 @@
         <div *ngIf="!isDarkMode" class="ms-1 ms-lg-auto me-5 me-lg-4">
           <i class="fa fa-toggle-on me-1 me-lg-0" style="font-size:36px" (click)="toggleTheme()"></i>
         </div>
-        <i class="fas fa-door-open ms-auto" style="font-size: 24px; cursor: pointer" (click)="logout()"></i>
+          <span class="ms-auto fw-bold">{{ username }}<i class="fas fa-door-open ms-2" style="font-size: 24px; cursor: pointer" (click)="logout()"></i></span>
+
       </div>
     </div>
   </div>

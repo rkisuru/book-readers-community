@@ -23,3 +23,8 @@ li > a {
   background-color: var(--background-color) !important;
 }
 
+@media only screen and (max-width: 600px) {
+  .bell {
+    display: none;
+  }
+}
