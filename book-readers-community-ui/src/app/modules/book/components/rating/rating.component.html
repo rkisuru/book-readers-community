@@ -1,4 +1,16 @@
-<div class="rating card-component">
+<div class="rating card-component" *ngIf="!borrow">
+  <ng-container *ngFor="let _ of [].constructor(fullStars); let i = index">
+    <i class="fas fa-star text-warning"></i>
+  </ng-container>
+  <ng-container *ngIf="hasHalfStar">
+    <i class="fas fa-star-half-alt text-warning"></i>
+  </ng-container>
+  <ng-container *ngFor="let _ of [].constructor(emptyStars); let i = index">
+    <i class="far fa-star"></i>
+  </ng-container>
+</div>
+
+<div class="rating base" *ngIf="borrow">
   <ng-container *ngFor="let _ of [].constructor(fullStars); let i = index">
     <i class="fas fa-star text-warning"></i>
   </ng-container>

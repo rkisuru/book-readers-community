@@ -7,6 +7,17 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 })
 export class RatingComponent {
 
+  _borrow: boolean = false;
+
+  @Input()
+  set borrow(value: boolean) {
+    this._borrow = value;
+  }
+
+  get borrow(): boolean {
+    return this._borrow;
+  }
+
   @Input() rating: number = 0;
   @Output() ratingClicked: EventEmitter<number> = new EventEmitter<number>();
   maxRating: number = 5;
