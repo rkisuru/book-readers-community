@@ -12,7 +12,7 @@ import {ToastrService} from "ngx-toastr";
 export class ReturnedBooksComponent implements OnInit {
 
   page = 0;
-  size = 5;
+  size = 8;
   pages: any = [];
   returnedBooks: PageResponseBorrowedBookResponse = {};
   message = '';
