@@ -6,7 +6,6 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { FeedbackService } from './services/feedback.service';
 import { BookService } from './services/book.service';
-import { AdminControllerService } from './services/admin-controller.service';
 
 /**
  * Module that provides all services and configuration.
@@ -18,7 +17,6 @@ import { AdminControllerService } from './services/admin-controller.service';
   providers: [
     FeedbackService,
     BookService,
-    AdminControllerService,
     ApiConfiguration
   ],
 })

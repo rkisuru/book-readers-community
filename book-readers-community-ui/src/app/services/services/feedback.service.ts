@@ -9,9 +9,9 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
+import { FeedbackResponse } from '../models/feedback-response';
 import { findAllFeedbacksByBook } from '../fn/feedback/find-all-feedbacks-by-book';
 import { FindAllFeedbacksByBook$Params } from '../fn/feedback/find-all-feedbacks-by-book';
-import { PageResponseFeedbackResponse } from '../models/page-response-feedback-response';
 import { saveFeedback } from '../fn/feedback/save-feedback';
 import { SaveFeedback$Params } from '../fn/feedback/save-feedback';
 
@@ -55,7 +55,7 @@ export class FeedbackService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllFeedbacksByBook$Response(params: FindAllFeedbacksByBook$Params, context?: HttpContext): Observable<StrictHttpResponse<PageResponseFeedbackResponse>> {
+  findAllFeedbacksByBook$Response(params: FindAllFeedbacksByBook$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<FeedbackResponse>>> {
     return findAllFeedbacksByBook(this.http, this.rootUrl, params, context);
   }
 
@@ -65,9 +65,9 @@ export class FeedbackService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllFeedbacksByBook(params: FindAllFeedbacksByBook$Params, context?: HttpContext): Observable<PageResponseFeedbackResponse> {
+  findAllFeedbacksByBook(params: FindAllFeedbacksByBook$Params, context?: HttpContext): Observable<Array<FeedbackResponse>> {
     return this.findAllFeedbacksByBook$Response(params, context).pipe(
-      map((r: StrictHttpResponse<PageResponseFeedbackResponse>): PageResponseFeedbackResponse => r.body)
+      map((r: StrictHttpResponse<Array<FeedbackResponse>>): Array<FeedbackResponse> => r.body)
     );
   }
 
