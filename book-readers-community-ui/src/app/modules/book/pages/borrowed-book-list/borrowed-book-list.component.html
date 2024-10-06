@@ -1,13 +1,13 @@
 <div class="base">
 <div class="text-center">
-  <h2>My borrowed books</h2>
+  <h3>My borrowed books</h3>
 </div>
 <hr>
-<div class="d-flex flex-column col-6" *ngIf="selectedBook">
-  <h2>Return and share feedback</h2>
+<div class="d-flex flex-column col-6 mx-auto d-block" *ngIf="selectedBook">
+  <h4 class="mb-3">Return and share feedback</h4>
   <div class="d-flex flex-column col-12">
     <div class="d-flex">
-      <div class="col-1">
+      <div class="col-1 me-5">
         <strong>Title</strong>
       </div>
       <div class="col-11">
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="d-flex">
-      <div class="col-1">
+      <div class="col-1 me-5">
         <strong>Author</strong>
       </div>
       <div class="col-11">
@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="d-flex">
-      <div class="col-1">
+      <div class="col-1 me-5">
         <strong>ISBN</strong>
       </div>
       <div class="col-11">
@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="d-flex">
-      <div class="col-1">
+      <div class="col-1 me-5">
         <strong>Rate</strong>
       </div>
       <div class="col-11">
@@ -55,10 +55,10 @@
       </div>
       <div class="d-flex justify-content-end gap-2 col-12">
         <button (click)="returnBook(true)" type="submit" class="btn btn-outline-primary">
-          <i class="fas fa-save"></i>&nbsp;Rate the book & Return
+          <i class="fas fa-save"></i>
         </button>
         <button (click)="returnBook(false)" type="submit" class="btn btn-outline-success">
-          <i class="fa-solid fa-paper-plane"></i>&nbsp;Just Return
+          <i class="fa-solid fa-paper-plane"></i>
         </button>
         <a routerLink="/books/my-books" type="submit" class="btn btn-link btn text-danger">
           <i class="fas fa-times"></i>&nbsp;Cancel
