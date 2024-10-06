@@ -37,8 +37,6 @@ public class KeycloakJwtAuthenticationConverter implements Converter<Jwt, Abstra
         var eternal = (Map<String, List<String>>) resourceAccess.get("brc");
         var roles = eternal.get("roles");
 
-        roles.forEach(role -> System.out.println("Role: " + role));
-
         return  roles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_"+ role))
                 .collect(Collectors.toSet());
