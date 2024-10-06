@@ -30,7 +30,7 @@ export class BookComponent implements OnInit {
     if (this.book.cover) {
       return 'data:image/jpg;base64,' + this.book.cover
     }
-    return 'https://thumbs.dreamstime.com/z/old-book-cover-24489981.jpg?ct=jpeg';
+    return 'https://images.unsplash.com/photo-1692742593528-ad97f591ff3e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
   }
 
   ngOnInit() {
