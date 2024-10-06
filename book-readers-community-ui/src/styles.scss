@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "bootstrap/dist/css/bootstrap.min.css";
 @import "@fortawesome/fontawesome-free/css/all.min.css";
+@import "ngx-toastr/toastr";
 
 .login-container{
   width: 800px;
@@ -9,20 +10,27 @@
 
 /* Default light theme */
 :root {
-  --background-color: white;
-  --text-color: black;
+  --background-color: #FFFFFF;
+  --text-color: #222222;
   --navbar-background-color: #f8f9fa;
+  --background-colorc: #f4f5f5;
 }
 
 /* Dark theme */
 .dark-theme {
-  --background-color: #121212;
+  --background-color: #000000;
   --text-color: #e0e0e0;
   --navbar-background-color: #343a40;
+  --background-colorc: #1c1c1d;
 }
 
 .base {
   background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.card-component {
+  background-color: var(--background-colorc);
   color: var(--text-color);
 }
 
