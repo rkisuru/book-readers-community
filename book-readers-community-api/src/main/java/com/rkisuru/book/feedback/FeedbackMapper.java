@@ -3,8 +3,6 @@ package com.rkisuru.book.feedback;
 import com.rkisuru.book.book.Book;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-
 @Service
 public class FeedbackMapper {
 
@@ -22,11 +20,11 @@ public class FeedbackMapper {
                 .build();
     }
 
-    public FeedbackResponse toFeedbackResponse(Feedback feedback, Integer id) {
+    public FeedbackResponse toFeedbackResponse(Feedback feedback) {
         return FeedbackResponse.builder()
                 .note(feedback.getNote())
                 .comment(feedback.getComment())
-                .ownFeedback(Objects.equals(feedback.getCreatedBy(), id))
+                .user(feedback.get_user())
                 .build();
     }
 }

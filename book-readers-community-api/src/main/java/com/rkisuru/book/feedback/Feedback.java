@@ -1,5 +1,6 @@
 package com.rkisuru.book.feedback;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rkisuru.book.book.Book;
 import com.rkisuru.book.common.BaseEntity;
 import jakarta.persistence.*;
@@ -23,5 +24,8 @@ public class Feedback extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "book_id")
+    @JsonIgnore
     private Book book;
+
+    private String _user;
 }

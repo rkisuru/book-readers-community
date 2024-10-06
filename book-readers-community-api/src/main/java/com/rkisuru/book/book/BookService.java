@@ -9,7 +9,6 @@ import com.rkisuru.book.history.BookTransactionHistory;
 import com.rkisuru.book.history.BookTransactionHistoryRepository;
 import com.rkisuru.book.notification.Notification;
 import com.rkisuru.book.notification.NotificationService;
-import com.rkisuru.book.notification.NotificationStatus;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +17,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,14 +41,13 @@ public class BookService {
     private final MyFavouriteRepository favouriteRepository;
     private final NotificationService notificationService;
 
-    public Integer save(BookRequest request, Authentication connectedUser) {
+    public Integer save(BookRequest request, @AuthenticationPrincipal Jwt jwt) {
 
-        //User user = ((User) connectedUser.getPrincipal());
         Book book = bookMapper.toBook(request);
-        //book.setOwner(user);
+        String username = jwt.getClaimAsString("preferred_username");
+        book.setOwner(username);
         return bookRepository.save(book).getId();
     }
-
 
     public BookResponse findById(Integer bookId) {
 
@@ -59,7 +59,6 @@ public class BookService {
 
     public PageResponse<BookResponse> findAllBooks(int page, int size, Authentication connectedUser) {
 
-        //User user = ((User) connectedUser.getPrincipal());
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Page<Book> books = bookRepository.findAllDisplayableBooks(pageable, connectedUser.getName());
         List<BookResponse> bookResponse = books.stream()
@@ -77,7 +76,7 @@ public class BookService {
     }
 
     public PageResponse<BookResponse> findAllBooksByOwner(int page, int size, Authentication connectedUser) {
-        //User user = ((User) connectedUser.getPrincipal());
+
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Page<Book> books = bookRepository.findAll(BookSpecification.withOwnerId(connectedUser.getName()), pageable);
         List<BookResponse> bookResponse = books.stream()
@@ -96,7 +95,6 @@ public class BookService {
 
     public PageResponse<BorrowedBookResponse> findAllBorrowedBooks(int page, int size, Authentication connectedUser) {
 
-        //User user = ((User) connectedUser.getPrincipal());
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Page<BookTransactionHistory> allBorrowedBooks = transactionHistoryRepository.findAllBorrowedBooks(pageable, connectedUser.getName());
         List<BorrowedBookResponse> bookResponse = allBorrowedBooks.stream()
@@ -115,7 +113,6 @@ public class BookService {
 
     public PageResponse<BorrowedBookResponse> findAllReturnedBooks(int page, int size, Authentication connectedUser) {
 
-        //User user = ((User) connectedUser.getPrincipal());
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
         Page<BookTransactionHistory> allBorrowedBooks = transactionHistoryRepository.findAllReturnedBooks(pageable, connectedUser.getName());
         List<BorrowedBookResponse> bookResponse = allBorrowedBooks.stream()
@@ -136,7 +133,6 @@ public class BookService {
 
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(()-> new EntityNotFoundException("No book found with the Id"+ bookId));
-        //User user = ((User) connectedUser.getPrincipal());
         if (!Objects.equals(book.getCreatedBy(), connectedUser.getName())) {
             throw new OperationNotPermittedException("You cannot update others' shareable status");
         }
@@ -149,7 +145,6 @@ public class BookService {
 
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(()-> new EntityNotFoundException("No book found with the Id"+ bookId));
-        //User user = ((User) connectedUser.getPrincipal());
         if (!Objects.equals(book.getCreatedBy(), connectedUser.getName())) {
             throw new OperationNotPermittedException("You cannot update others' archived status");
         }
@@ -166,7 +161,6 @@ public class BookService {
         if (book.isArchived() || !book.isShareable()) {
             throw new OperationNotPermittedException("The requested book cannot be borrowed since it is archived or not shareable");
         }
-        //User user = ((User) connectedUser.getPrincipal());
         if (Objects.equals(book.getCreatedBy(), connectedUser.getName())) {
             throw new OperationNotPermittedException("You cannot borrow your own book");
         }
@@ -199,7 +193,6 @@ public class BookService {
         if (book.isArchived() || !book.isShareable()) {
             throw new OperationNotPermittedException("The requested book cannot be borrowed since it is archived or not shareable");
         }
-        //User user = ((User) connectedUser.getPrincipal());
         if (Objects.equals(book.getCreatedBy(), connectedUser.getName())) {
             throw new OperationNotPermittedException("You cannot borrow or return your own book");
         }
@@ -225,7 +218,6 @@ public class BookService {
         if (book.isArchived() || !book.isShareable()) {
             throw new OperationNotPermittedException("The requested book is archived or not shareable");
         }
-        //User user = ((User) connectedUser.getPrincipal());
         if (!Objects.equals(book.getCreatedBy(), connectedUser.getName())) {
             throw new OperationNotPermittedException("You cannot approve return of a book that you not own");
         }
@@ -248,7 +240,6 @@ public class BookService {
 
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new EntityNotFoundException("No book found with Id: "+bookId));
-        //User user = ((User) connectedUser.getPrincipal());
         var bookCover = fileStorageService.saveFile(file, connectedUser.getName());
         book.setBookCover(bookCover);
         bookRepository.save(book);

@@ -1,9 +1,12 @@
 package com.rkisuru.book.book;
 
+import com.rkisuru.book.feedback.Feedback;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -21,4 +24,5 @@ public class BookResponse {
     private double rate;
     private boolean archived;
     private boolean shareable;
+    private List<Feedback> feedbacks;
 }

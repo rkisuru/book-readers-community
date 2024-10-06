@@ -2,17 +2,13 @@ package com.rkisuru.book.feedback;
 
 import com.rkisuru.book.book.Book;
 import com.rkisuru.book.book.BookRepository;
-import com.rkisuru.book.common.PageResponse;
 import com.rkisuru.book.exception.OperationNotPermittedException;
-import com.rkisuru.book.user.User;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,36 +21,27 @@ public class FeedbackService {
     private final FeedbackMapper feedbackMapper;
     private final FeedbackRepository feedbackRepository;
 
-    public Integer save(FeedbackRequest feedbackRequest, Authentication connectedUser) {
+    public Integer save(FeedbackRequest feedbackRequest, Authentication connectedUser, @AuthenticationPrincipal Jwt jwt) {
         Book book = bookRepository.findById(feedbackRequest.bookId())
                 .orElseThrow(()-> new EntityNotFoundException("No book found with id " + feedbackRequest.bookId()));
         if (book.isArchived() || !book.isShareable()) {
             throw new SecurityException("You cannot give feedback to an archived or not shareable book");
         }
-        //User user = ((User) connectedUser.getPrincipal());
         if (Objects.equals(book.getCreatedBy(), connectedUser.getName())) {
             throw new OperationNotPermittedException("You cannot give feedback to your own book");
         }
+
+        String username = jwt.getClaimAsString("preferred_username");
         Feedback feedback = feedbackMapper.toFeedback(feedbackRequest);
+        feedback.set_user(username);
         return feedbackRepository.save(feedback).getId();
     }
 
-    @Transactional
-    public PageResponse<FeedbackResponse> findAllFeedbacksByBook(Integer bookId, int page, int size, Authentication connectedUser) {
-        Pageable pageable = PageRequest.of(page, size);
-        User user = ((User) connectedUser.getPrincipal());
-        Page<Feedback> feedbacks = feedbackRepository.findAllByBookId(bookId, pageable);
-        List<FeedbackResponse> feedbackResponses = feedbacks.stream()
-                .map(f-> feedbackMapper.toFeedbackResponse(f, user.getId()))
+    public List<FeedbackResponse> findAllFeedbacksByBookId(Integer bookId) {
+
+        return feedbackRepository.findAllByBookId(bookId).stream()
+                .map(feedbackMapper::toFeedbackResponse)
                 .toList();
-        return new  PageResponse<>(
-                feedbackResponses,
-                feedbacks.getNumber(),
-                feedbacks.getSize(),
-                feedbacks.getTotalElements(),
-                feedbacks.getTotalPages(),
-                feedbacks.isFirst(),
-                feedbacks.isLast()
-        );
     }
+
 }

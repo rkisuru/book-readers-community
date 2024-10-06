@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,9 +31,9 @@ public class BookController {
     @PostMapping
     public ResponseEntity<Integer> saveBook(
             @Valid @RequestBody BookRequest request,
-            Authentication connectedUser
+            @AuthenticationPrincipal Jwt jwt
     ) {
-        return ResponseEntity.ok(bookService.save(request, connectedUser));
+        return ResponseEntity.ok(bookService.save(request, jwt));
     }
 
     @GetMapping("/{bookId}")
@@ -173,15 +175,5 @@ public class BookController {
 
         return ResponseEntity.ok(favouriteService.isFavExist(connectedUser, bookId));
     }
-
-    /*@GetMapping("/user-info")
-    public String getUserInfo(@AuthenticationPrincipal Jwt jwt) {
-        String username = jwt.getClaimAsString("preferred_username");  // Keycloak default claim for username
-        String email = jwt.getClaimAsString("email");  // Keycloak default claim for email
-        Object roles = jwt.getClaim("roles");  // Assuming you have "roles" claim in the token
-        String id = jwt.getClaimAsString("sub");
-
-        return "Username: " + username + ", Email: " + email + ", ID: " + id;
-    }*/
 
 }
