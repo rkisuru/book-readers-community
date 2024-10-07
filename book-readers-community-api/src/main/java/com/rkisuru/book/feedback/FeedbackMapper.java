@@ -24,7 +24,7 @@ public class FeedbackMapper {
         return FeedbackResponse.builder()
                 .note(feedback.getNote())
                 .comment(feedback.getComment())
-                .user(feedback.get_user())
+                .own(feedback.getOwn())
                 .build();
     }
 }

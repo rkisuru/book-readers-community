@@ -27,5 +27,5 @@ public class Feedback extends BaseEntity {
     @JsonIgnore
     private Book book;
 
-    private String _user;
+    private String own;
 }

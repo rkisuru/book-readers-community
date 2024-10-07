@@ -33,7 +33,7 @@ public class FeedbackService {
 
         String username = jwt.getClaimAsString("preferred_username");
         Feedback feedback = feedbackMapper.toFeedback(feedbackRequest);
-        feedback.set_user(username);
+        feedback.setOwn(username);
         return feedbackRepository.save(feedback).getId();
     }
 
