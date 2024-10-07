@@ -31,6 +31,7 @@ Book Readers' Community is a full-stack web application designed for users to ma
 - OpenAPI and Swagger UI Documentation
 - Docker
 - Keycloak
+- PostgreSQL
 
 ### Frontend (book-readers'-community-ui)
 
