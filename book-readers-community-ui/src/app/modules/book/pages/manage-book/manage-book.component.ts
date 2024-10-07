@@ -98,6 +98,9 @@ export class ManageBookComponent implements OnInit {
         {
           next: ()=> {
             this.router.navigate(['/books/my-books']);
+          },
+          error: (err) => {
+            this.toastService.error(err.error.error, "The book must be returned or return approved to delete");
           }
         }
       );
