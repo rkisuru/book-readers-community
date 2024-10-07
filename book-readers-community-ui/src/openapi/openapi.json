@@ -837,7 +837,7 @@
           "comment": {
             "type": "string"
           },
-          "get_user": {
+          "own": {
             "type": "string"
           }
         }
@@ -852,7 +852,7 @@
           "comment": {
             "type": "string"
           },
-          "user": {
+          "own": {
             "type": "string"
           }
         }

@@ -3,5 +3,5 @@
 export interface FeedbackResponse {
   comment?: string;
   note?: number;
-  user?: string;
+  own?: string;
 }
