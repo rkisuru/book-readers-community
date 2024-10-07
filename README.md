@@ -10,7 +10,7 @@
 
 ## Overview
 
-Book Readers' Community is a full-stack web application designed for users to manage their personal book collections and connect with fellow book enthusiasts. The platform allows users to register, manage their books (add, update, delete, share, and archive), borrow books while checking availability, and handle returns with an approval process. The backend is powered by Spring Boot 3 with Spring Security 6, OAuth 2.0 Resource Server, and Keycloak for authentication and authorization, while the frontend is developed using Angular and styled with Bootstrap.
+Book Readers' Community is a full-stack web application designed for users to manage their personal book collections and connect with fellow book enthusiasts. The platform allows users to register, manage their books (add, update, delete, share, and archive), borrow books while checking availability, and handle returns with an approval process. The backend is powered by Spring Boot 3 with Spring Security 6, OAuth 2.0 Resource Server with Keycloak for authentication and authorization, while the frontend is developed using Angular and styled with Bootstrap.
 
 ## Features
 
