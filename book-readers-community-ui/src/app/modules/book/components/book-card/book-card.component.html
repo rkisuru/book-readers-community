@@ -4,7 +4,7 @@
   [class.border-warning]="book.archived"
 >
   <img [src]="bookCover" class="card-img-top" alt="...">
-  <div class="card-body overflow-hidden">
+  <div class="card-body overflow-y-scroll">
     <h5 class="card-title fs-10 text-nowrap fw-bold mb-1"><i class="fa-solid fa-book"></i>&nbsp;{{book.title}}</h5>
     <h5 class="card-subtitle fs-6 text-secondary mb-1"><i class="fa-solid fa-user-check"></i>&nbsp;{{ book.authorName }}</h5>
     <hr>

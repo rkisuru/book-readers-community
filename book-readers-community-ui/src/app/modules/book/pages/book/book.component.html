@@ -42,7 +42,9 @@
 <div class="container container2">
   <h4>Comments</h4>
   <div *ngFor="let feedback of book.feedbacks">
-    <p class="fw-bold fs-4">{{ feedback.get_user }}:</p>
-    <p>{{ feedback.comment }}</p>
+    <div class="d-flex mt-3">
+      <i class="fa fa-user-circle me-3 mt-1" style="font-size: 24px;"></i>
+      <p class="fs-5">{{ feedback.own }}: {{ feedback.comment }}</p>
+    </div>
   </div>
 </div>

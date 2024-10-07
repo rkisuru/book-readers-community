@@ -11,3 +11,9 @@ li, a {
   background-color: var(--background-colorc);
   color: var(--text-color);
 }
+
+@media only screen and (max-width: 992px) {
+  .return {
+    display: none;
+  }
+}
