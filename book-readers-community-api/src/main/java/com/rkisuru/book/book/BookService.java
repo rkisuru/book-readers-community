@@ -4,6 +4,8 @@ import com.rkisuru.book.common.PageResponse;
 import com.rkisuru.book.exception.OperationNotPermittedException;
 import com.rkisuru.book.favourite.MyFavourite;
 import com.rkisuru.book.favourite.MyFavouriteRepository;
+import com.rkisuru.book.feedback.Feedback;
+import com.rkisuru.book.feedback.FeedbackRepository;
 import com.rkisuru.book.file.FileStorageService;
 import com.rkisuru.book.history.BookTransactionHistory;
 import com.rkisuru.book.history.BookTransactionHistoryRepository;
@@ -40,6 +42,7 @@ public class BookService {
     private final FileStorageService fileStorageService;
     private final MyFavouriteRepository favouriteRepository;
     private final NotificationService notificationService;
+    private final FeedbackRepository feedbackRepository;
 
     public Integer save(BookRequest request, @AuthenticationPrincipal Jwt jwt) {
 
@@ -136,6 +139,10 @@ public class BookService {
         if (!Objects.equals(book.getCreatedBy(), connectedUser.getName())) {
             throw new OperationNotPermittedException("You cannot update others' shareable status");
         }
+        final boolean isBorrowed = transactionHistoryRepository.isAlreadyBorrowed(bookId);
+        if (isBorrowed) {
+            throw new RuntimeException("You cannot update shareable status while the book is borrowed");
+        }
         book.setShareable(!book.isShareable());
         bookRepository.save(book);
         return bookId;
@@ -147,6 +154,10 @@ public class BookService {
                 .orElseThrow(()-> new EntityNotFoundException("No book found with the Id"+ bookId));
         if (!Objects.equals(book.getCreatedBy(), connectedUser.getName())) {
             throw new OperationNotPermittedException("You cannot update others' archived status");
+        }
+        final boolean isBorrowed = transactionHistoryRepository.isAlreadyBorrowed(bookId);
+        if (isBorrowed) {
+            throw new RuntimeException("You cannot update archived status while the book is borrowed");
         }
         book.setArchived(!book.isArchived());
         bookRepository.save(book);
@@ -258,13 +269,22 @@ public class BookService {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(()-> new EntityNotFoundException("No book found with Id: "+bookId));
 
+        final boolean isBorrowed = transactionHistoryRepository.isAlreadyBorrowed(bookId);
+        if (isBorrowed) {
+            throw new RuntimeException("You cannot delete book while the book is borrowed");
+        }
+
+
+
         List<MyFavourite> favs = favouriteRepository.findByBookId(bookId);
+        List<Feedback> feedbacks = feedbackRepository.findAllByBookId(bookId);
 
         List<BookTransactionHistory> transactions = transactionHistoryRepository.findAllTransactionsByBook(bookId);
 
         if (book.getCreatedBy().equals(connectedUser.getName()) && !transactionHistoryRepository.isAlreadyBorrowed(bookId)) {
             transactionHistoryRepository.deleteAll(transactions);
             favouriteRepository.deleteAll(favs);
+            feedbackRepository.deleteAll(feedbacks);
             bookRepository.delete(book);
         }
     }
