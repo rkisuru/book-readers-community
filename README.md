@@ -14,6 +14,10 @@
 
 The backend is powered by **Spring Boot 3** and **Spring Security 6**, utilizing **OAuth 2.0 Resource Server** with **Keycloak** for authentication and authorization. The frontend is developed using **Angular** and styled with **Bootstrap** to ensure a responsive and user-friendly interface.
 
+## 💻 **Demo**
+
+https://github.com/user-attachments/assets/62d81ea7-1302-440c-be0b-d9c91a519f55
+
 ## ✨ **Features**
 
 - 🔑 **User Registration & Login**: Users can register and securely log in via **Keycloak**.
