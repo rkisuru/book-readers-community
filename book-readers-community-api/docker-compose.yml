@@ -3,10 +3,10 @@ services:
     container_name: postgres-sql-brc
     image: postgres
     environment:
-      POSTGRES_USER: username
-      POSTGRES_PASSWORD: password
-      PGDATA: /var/lib/postgresql/data
-      POSTGRES_DB: book_community
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - PGDATA=/var/lib/postgresql/data
+      - POSTGRES_DB=${DB_NAME}
     volumes:
       - postgres:/data/postgres
     ports:
@@ -21,8 +21,8 @@ services:
     ports:
       - 9090:8080
     environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: password
+      - KEYCLOAK_ADMIN=${KEYCLOAK_USER}
+      - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_PASSWORD}
     networks:
       - spring-net
     command:
